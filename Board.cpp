@@ -41,87 +41,118 @@ Board::Board()
     {
         for(int j = 0; j < 9; j++)
         {
-            board[i][j] = nullptr;
-            m_board[i][j] = 0;
+            board[i][j] = NoChess;
         }
     }
-    /*board[0][0] = new R_Car();
-    board[0][8] = new R_Car();
-    board[9][0] = new B_Car();
-    board[9][8] = new B_Car();
+    
+    for(int i = 0 ; i < 32; i++)
+    {
+        switch (i)
+        {
+        case R_KING:
+            chess[i] = new R_King;
+            break;
+        case R_GUARD1:
+        case R_GUARD2:
+            chess[i] = new R_Guard;
+            break;
+        case R_BISHOP1:
+        case R_BISHOP2:
+            chess[i] = new R_Bishop;
+            break;
+        case R_PAWN1:
+        case R_PAWN2:
+        case R_PAWN3:
+        case R_PAWN4:
+        case R_PAWN5:
+            chess[i] = new R_Pawn;
+            break;
+        case R_HORSE1:
+        case R_HORSE2:
+            chess[i] = new R_Horse;
+            break;
+        case R_CANNON1:
+        case R_CANNON2:
+            chess[i] = new R_Cannon;
+            break;
+        case R_CAR1:
+        case R_CAR2:
+            chess[i] = new R_Car;
+            break;
 
-    board[0][1] = new R_Horse();
-    board[0][7] = new R_Horse();
-    board[9][1] = new B_Horse();
-    board[9][7] = new B_Horse();
+        case B_KING:
+            chess[i] = new B_King;
+            break;
+        case B_GUARD1:
+        case B_GUARD2:
+            chess[i] = new B_Guard;
+            break;
+        case B_BISHOP1:
+        case B_BISHOP2:
+            chess[i] = new B_Bishop;
+            break;
+        case B_PAWN1:
+        case B_PAWN2:
+        case B_PAWN3:
+        case B_PAWN4:
+        case B_PAWN5:
+            chess[i] = new B_Pawn;
+            break;
+        case B_HORSE1:
+        case B_HORSE2:
+            chess[i] = new B_Horse;
+            break;
+        case B_CANNON1:
+        case B_CANNON2:
+            chess[i] = new B_Cannon;
+            break;
+        case B_CAR1:
+        case B_CAR2:
+            chess[i] = new B_Car;
+            break;
+        default:
+            assert(0);
+        }
+    }
 
-    board[0][2] = new R_Bishop();
-    board[0][6] = new R_Bishop();
-    board[9][2] = new B_Bishop();
-    board[9][6] = new B_Bishop();
+    board[0][0] = R_CAR1;
+    board[0][8] = R_CAR2;
+    board[9][0] = B_CAR1;
+    board[9][8] = B_CAR2;
 
-    board[0][3] = new R_Guard();
-    board[0][5] = new R_Guard();
-    board[9][3] = new B_Guard();
-    board[9][5] = new B_Guard();
+    board[0][1] = R_HORSE1;
+    board[0][7] = R_HORSE2;
+    board[9][1] = B_HORSE1;
+    board[9][7] = B_HORSE2;
 
-    board[0][4] = new R_King();
-    board[9][4] = new B_King();
+    board[0][2] = R_BISHOP1;
+    board[0][6] = R_BISHOP2;
+    board[9][2] = B_BISHOP1;
+    board[9][6] = B_BISHOP2;
 
-    board[2][1] = new R_Cannon();
-    board[2][7] = new R_Cannon();
-    board[7][1] = new B_Cannon();
-    board[7][7] = new B_Cannon();
+    board[0][3] = R_GUARD1;
+    board[0][5] = R_GUARD2;
+    board[9][3] = B_GUARD1;
+    board[9][5] = B_GUARD2;
 
-    board[3][0] = new R_Pawn();
-    board[3][2] = new R_Pawn();
-    board[3][4] = new R_Pawn();
-    board[3][6] = new R_Pawn();
-    board[3][8] = new R_Pawn();
-    board[6][0] = new B_Pawn();
-    board[6][2] = new B_Pawn();
-    board[6][4] = new B_Pawn();
-    board[6][6] = new B_Pawn();
-    board[6][8] = new B_Pawn();*/
+    board[0][4] = R_KING;
+    board[9][4] = B_KING;
 
-    m_board[0][0] = R_CAR;
-    m_board[0][8] = R_CAR;
-    m_board[9][0] = B_CAR;
-    m_board[9][8] = B_CAR;
+    board[2][1] = R_CANNON1;
+    board[2][7] = R_CANNON2;
+    board[7][1] = B_CANNON1;
+    board[7][7] = B_CANNON2;
 
-    m_board[0][1] = R_HORSE;
-    m_board[0][7] = R_HORSE;
-    m_board[9][1] = B_HORSE;
-    m_board[9][7] = B_HORSE;
-
-    m_board[0][2] = R_BISHOP;
-    m_board[0][6] = R_BISHOP;
-    m_board[9][2] = B_BISHOP;
-    m_board[9][6] = B_BISHOP;
-
-    m_board[0][3] = R_GUARD;
-    m_board[0][5] = R_GUARD;
-    m_board[9][3] = B_GUARD;
-    m_board[9][5] = B_GUARD;
-
-    m_board[0][4] = R_KING;
-    m_board[9][4] = B_KING;
-
-    m_board[2][1] = R_CANNON;
-    m_board[2][7] = R_CANNON;
-    m_board[7][1] = B_CANNON;
-    m_board[7][7] = B_CANNON;
-
-    m_board[3][0] = R_PAWN;
-    m_board[3][2] = R_PAWN;
-    m_board[3][4] = R_PAWN;
-    m_board[3][6] = R_PAWN;
-    m_board[3][8] = R_PAWN;
-    m_board[6][0] = B_PAWN;
-    m_board[6][2] = B_PAWN;
-    m_board[6][4] = B_PAWN;
-    m_board[6][6] = B_PAWN;
-    m_board[6][8] = B_PAWN;
+    board[3][0] = R_PAWN1;
+    board[3][2] = R_PAWN2;
+    board[3][4] = R_PAWN3;
+    board[3][6] = R_PAWN4;
+    board[3][8] = R_PAWN5;
+    board[6][0] = B_PAWN1;
+    board[6][2] = B_PAWN2;
+    board[6][4] = B_PAWN3;
+    board[6][6] = B_PAWN4;
+    board[6][8] = B_PAWN5;
 
 }
 
@@ -136,40 +167,56 @@ void Board::display()
         cout<<i<<" ";
         for(int j = 0; j < 9; j++)
         {
-            switch (m_board[i][j])
+            switch (board[i][j])
             {
             case R_KING:cout<<"帥";
                 break;
             case B_KING:cout<<"将";
                 break;
-            case R_GUARD:cout<<"仕";
+            case R_GUARD1:
+            case R_GUARD2:cout<<"仕";
                 break;
-            case B_GUARD:cout<<"士";
+            case B_GUARD1:
+            case B_GUARD2:cout<<"士";
                 break;
-            case R_HORSE:cout<<"馬";
+            case R_HORSE1:
+            case R_HORSE2:cout<<"馬";
                 break;
-            case B_HORSE:cout<<"马";
+            case B_HORSE1:
+            case B_HORSE2:cout<<"马";
                 break;
-            case R_BISHOP:cout<<"相";
+            case R_BISHOP1:
+            case R_BISHOP2:cout<<"相";
                 break;
-            case B_BISHOP:cout<<"象";
+            case B_BISHOP1:
+            case B_BISHOP2:cout<<"象";
                 break;
-            case R_CANNON:cout<<"砲";
+            case R_CANNON1:
+            case R_CANNON2:cout<<"砲";
                 break;
-            case B_CANNON:cout<<"炮";
+            case B_CANNON1:
+            case B_CANNON2:cout<<"炮";
                 break;
-            case R_CAR:cout<<"車";
+            case R_CAR1:
+            case R_CAR2:cout<<"車";
                 break;
-            case B_CAR:cout<<"车";
+            case B_CAR1:
+            case B_CAR2:cout<<"车";
                 break;
-            case R_PAWN:cout<<"卒";
+            case R_PAWN1:
+            case R_PAWN2:
+            case R_PAWN3:
+            case R_PAWN4:
+            case R_PAWN5:cout<<"卒";
                 break;
-            case B_PAWN:cout<<"兵";
+            case B_PAWN1:
+            case B_PAWN2:
+            case B_PAWN3:
+            case B_PAWN4:
+            case B_PAWN5:cout<<"兵";
                 break;
             case NoChess:cout<<"+-";
                 break;
-            default:
-                assert(0);
             }
             if(j != 8)cout<<"-----";
         }
@@ -216,10 +263,7 @@ void Board::moveNext(MOVEMENT & move)
     int dst_y = move.tar.y;
 
     board[dst_y][dst_x] = board[src_y][src_x];
-    m_board[dst_y][dst_x] = m_board[src_y][src_x];
-
-    board[src_y][src_x] = nullptr;
-    board[src_y][src_x] = NoChess;
+    board[dst_y][dst_x] = board[src_y][src_x];
 }
 
 bool Board::getRKing(CHESSPOS & pos)
@@ -227,7 +271,7 @@ bool Board::getRKing(CHESSPOS & pos)
     for(int i = 0; i <= 2; i++)
     {
         for(int j = 3; j <= 5; j++)
-            if(m_board[i][j] == R_KING)
+            if(board[i][j] == R_KING)
             {
                 pos.x = j;
                 pos.y = i;
@@ -241,7 +285,7 @@ bool Board::getBKing(CHESSPOS & pos)
     for(int i = 0; i <= 2; i++)
     {
         for(int j = 3; j <= 5; j++)
-            if(m_board[i][j] == B_KING)
+            if(board[i][j] == B_KING)
             {
                 pos.x = j;
                 pos.y = i;

@@ -2,4 +2,5 @@
 
 R_King::R_King()
 {
+    
 }

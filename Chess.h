@@ -9,7 +9,6 @@ class Chess//记录棋子在棋盘上的坐标；根据形势给出所有合法�
 public:
 	Chess() {}
 	~Chess() {}
-	int chess_id;//棋子编号
 	CHESSPOS pos;//棋子在棋盘上的位置
 	void setPos(CHESSPOS &tar) { pos = tar; }//棋子移动,设置下一个位置坐标
 	virtual bool moveValid(CHESSPOS &tar, int board[10][9]) = 0;//确定目标移动位置合法性:针对棋子特定的移动规则

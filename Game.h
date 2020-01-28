@@ -21,7 +21,7 @@ class Game//游戏运行主逻辑
 	Board board;
     int over_flag;
 public:
-	Game() {over_flag = GMAEON;}
+	Game();
 	~Game() {}
 	int gameStart(int mode);//返回赢棋的一方
     void gameOverCheck(int side);//在side方走子后判断棋局是否结束
