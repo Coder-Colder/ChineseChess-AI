@@ -210,6 +210,7 @@ void Board::display()
 
 void Board::Next(MOVEMENT & move)
 {
+    
 }
 
 bool Board::getRKing(CHESSPOS & pos)
