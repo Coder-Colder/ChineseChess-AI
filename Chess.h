@@ -95,35 +95,64 @@ public:
 	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
 };
 
-class horse :public Chess//马：不区分红黑
+class R_Horse :public Chess//红马
 {
 public:
-	horse();
-	~horse();
+	R_Horse();
+	~R_Horse();
 	void setPos(CHESSPOS &tar);//重定义父类函数
 	bool moveValid(CHESSPOS &tar);//重定义父类函数
 	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
 };
 
-class Cannon :public Chess//炮：不区分红黑
+class B_Horse :public Chess//黑马
 {
 public:
-	Cannon();
-	~Cannon();
+	B_Horse();
+	~B_Horse();
 	void setPos(CHESSPOS &tar);//重定义父类函数
 	bool moveValid(CHESSPOS &tar);//重定义父类函数
 	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
 };
 
-class Car :public Chess//车：不区分红黑
+class R_Cannon :public Chess//红炮
 {
 public:
-	Car();
-	~Car();
+	R_Cannon();
+	~R_Cannon();
 	void setPos(CHESSPOS &tar);//重定义父类函数
 	bool moveValid(CHESSPOS &tar);//重定义父类函数
 	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
 };
 
+class B_Cannon :public Chess//黑炮
+{
+public:
+	B_Cannon();
+	~B_Cannon();
+	void setPos(CHESSPOS &tar);//重定义父类函数
+	bool moveValid(CHESSPOS &tar);//重定义父类函数
+	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
+};
+
+class R_Car :public Chess//红车
+{
+public:
+	R_Car();
+	~R_Car();
+	void setPos(CHESSPOS &tar);//重定义父类函数
+	bool moveValid(CHESSPOS &tar);//重定义父类函数
+	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
+};
+
+class B_Car :public Chess//黑车
+{
+public:
+	B_Car();
+	~B_Car();
+	void setPos(CHESSPOS &tar);//重定义父类函数
+	bool moveValid(CHESSPOS &tar);//重定义父类函数
+	void generateMovement(vector<CHESSPOS> &tar_pos, int board[9][10]);//重定义父类函数
+};
 
 #endif // !CHESS_H
