@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef CHESS_H
 #define CHESS_H
 #include "define.h"
