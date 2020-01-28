@@ -1,14 +1,5 @@
-﻿#include "Game.h"
-
-Game::Game()
-{
-}
+#include "Game.h"
 
 Game::~Game()
-{
-    
-}
-
-void Game::gameStart()
 {
 }
