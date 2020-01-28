@@ -9,7 +9,7 @@ class Human
 public:
 	Human() {}
 	~Human() {}
-	MOVEMENT play(Board &board);
+	void play(Board &board, MOVEMENT &mvmt);
 };
 
 #endif
