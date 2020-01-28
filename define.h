@@ -14,6 +14,7 @@ struct MOVEMENT//走子描述
 	CHESSPOS tar;
 };
 
+
 /*chess id*/
 #define NoChess 0
 #define R_KING 1
@@ -34,5 +35,8 @@ struct MOVEMENT//走子描述
 
 #define is_Red(CHESSID) CHESSID <= 7 && CHESSID >= 1
 #define is_Black(CHESSID) CHESSID <= 14 && CHESSID >= 8
+#define is_outBoard(CHESSPOS) CHESSPOS.x < 0 || CHESSPOS.x > 8 || CHESSPOS.y < 0 || CHESSPOS.y > 9
+#define is_outRedPalace(CHESSPOS) CHESSPOS.x < 3 || CHESSPOS.x > 5 || CHESSPOS.y < 0 || CHESSPOS.y > 2
+#define is_outBlackPalace(CHESSPOS) CHESSPOS.x < 3 || CHESSPOS.x > 5 || CHESSPOS.y < 7 || CHESSPOS.y > 9
 
 #endif
