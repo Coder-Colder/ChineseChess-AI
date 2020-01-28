@@ -12,7 +12,7 @@ using namespace std;
         |      |      |      |    / | \    |      |      |      |  
         |      |      |      |  /   |   \  |      |      |      |
     2   +------砲-----+------+------+------+------+------砲-----+-
-        |      |      |      |      |      |      |      |      |  红
+        |      |      |      |      |      |      |      |      |        红
         |      |      |      |      |      |      |      |      |
     3   卒-----+------卒-----+------卒-----+------卒-----+------卒
         |      |      |      |      |      |      |      |      |
@@ -25,7 +25,7 @@ using namespace std;
         |      |      |      |      |      |      |      |      |
     6   兵-----+------兵-----+------兵-----+------兵-----+------兵
         |      |      |      |      |      |      |      |      |
-        |      |      |      |      |      |      |      |      |  黑
+        |      |      |      |      |      |      |      |      |        黑
     7   +------炮-----+------+------+------+------+------炮-----+-
         |      |      |      |  \   |   /  |      |      |      |
         |      |      |      |    \ | /    |      |      |      |
@@ -193,12 +193,12 @@ void Board::display()
             cout<<"  |                河                          界         |"<<endl;
             break;
         case 2:
-            cout<<"  |      |      |      |      |      |      |      |      |  红"<<endl;
+            cout<<"  |      |      |      |      |      |      |      |      |        红"<<endl;
             cout<<"  |      |      |      |      |      |      |      |      |"<<endl;
             break;
         case 6:
             cout<<"  |      |      |      |      |      |      |      |      |"<<endl;
-            cout<<"  |      |      |      |      |      |      |      |      |  黑"<<endl;
+            cout<<"  |      |      |      |      |      |      |      |      |        黑"<<endl;
             break;
         default:
             cout<<"  |      |      |      |      |      |      |      |      |"<<endl;
@@ -208,16 +208,45 @@ void Board::display()
     }
 }
 
-void Board::Next(MOVEMENT & move)
+void Board::moveNext(MOVEMENT & move)
 {
-    
+    int src_x = move.src.x;
+    int src_y = move.src.y;
+    int dst_x = move.tar.x;
+    int dst_y = move.tar.y;
+
+    board[dst_y][dst_x] = board[src_y][src_x];
+    m_board[dst_y][dst_x] = m_board[src_y][src_x];
+
+    board[src_y][src_x] = nullptr;
+    board[src_y][src_x] = NoChess;
 }
 
 bool Board::getRKing(CHESSPOS & pos)
 {
+    for(int i = 0; i <= 2; i++)
+    {
+        for(int j = 3; j <= 5; j++)
+            if(m_board[i][j] == R_KING)
+            {
+                pos.x = j;
+                pos.y = i;
+                return true;
+            }
+    }
     return false;
 }
 bool Board::getBKing(CHESSPOS & pos)
 {
+    for(int i = 0; i <= 2; i++)
+    {
+        for(int j = 3; j <= 5; j++)
+            if(m_board[i][j] == B_KING)
+            {
+                pos.x = j;
+                pos.y = i;
+                return true;
+            }
+    }
     return false;
 }

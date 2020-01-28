@@ -10,7 +10,7 @@ public:
 	Chess* board[10][9];
 	int m_board[10][9];
 	void display();//打印棋盘
-	void Next(MOVEMENT & move);//根据走子方法更新棋面
+	void moveNext(MOVEMENT & move);//根据走子方法更新棋面
 	bool getRKing(CHESSPOS & pos);//获取红帅
 	bool getBKing(CHESSPOS & pos);//获取黑帅
 	Board();
