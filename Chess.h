@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef CHESS_H
 #define CHESS_H
 #include "define.h"
@@ -7,8 +7,8 @@ using namespace std;
 class Chess//记录棋子在棋盘上的坐标；根据形势给出所有合法走子；检验所给走子方法的合法性
 {
 public:
-	Chess() {}
-	~Chess() {}
+	Chess();
+	~Chess();
 	int chess_id;//棋子编号
 	CHESSPOS pos;//棋子在棋盘上的位置
 	virtual void setPos(CHESSPOS &tar) = 0;//棋子移动,设置下一个位置坐标
