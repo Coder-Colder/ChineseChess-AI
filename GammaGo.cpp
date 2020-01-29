@@ -38,7 +38,7 @@ void GammaGo::play(Board &board, MOVEMENT &mvmt)
 
     //随机选择走子策略，计算胜率
     uniform_int_distribution<unsigned> u(0, size - 1);
-    e.seed(std::time(0));
+    e.seed((unsigned)std::time(0));
     for(int i = 0; i < time; i++)
     {
         unsigned move_idx = u(e);
@@ -48,6 +48,10 @@ void GammaGo::play(Board &board, MOVEMENT &mvmt)
         if(simulateRun() == true)//胜利
             win_cnt[move_idx]++;
         restoreStatus();
+		//复盘
+		for (int i = 0; i < 10; i++)
+			for (int j = 0; j < 9; j++)
+				s_board[i][j] = board.board[i][j];
     }
 
     //计算最大胜率
@@ -82,6 +86,8 @@ bool GammaGo::simulateRun()//模拟下棋
             //随机生成一种走法
             vector<MOVEMENT> B_mvmt;
             chess[B_chess_id]->generateMovement(B_mvmt,s_board);
+			if (B_mvmt.size() == 0)
+				return true;
             uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
             mvmt = B_mvmt[B_mvmt_no(e)];
             makeMove(mvmt);
@@ -97,6 +103,8 @@ bool GammaGo::simulateRun()//模拟下棋
             //随机生成一种走法
             vector<MOVEMENT> R_mvmt;
             chess[R_chess_id]->generateMovement(R_mvmt,s_board);
+			if (R_mvmt.size() == 0)
+				return false;
             uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
             mvmt = R_mvmt[R_mvmt_no(e)];
             makeMove(mvmt);
@@ -121,6 +129,8 @@ bool GammaGo::simulateRun()//模拟下棋
             //随机生成一种走法
             vector<MOVEMENT> R_mvmt;
             chess[R_chess_id]->generateMovement(R_mvmt,s_board);
+			if (R_mvmt.size() == 0)
+				return true;
             uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
             mvmt = R_mvmt[R_mvmt_no(e)];
             makeMove(mvmt);
@@ -136,6 +146,8 @@ bool GammaGo::simulateRun()//模拟下棋
             //随机生成一种走法
             vector<MOVEMENT> B_mvmt;
             chess[B_chess_id]->generateMovement(B_mvmt,s_board);
+			if (B_mvmt.size() == 0)
+				return false;
             uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
             mvmt = B_mvmt[B_mvmt_no(e)];
             makeMove(mvmt);
@@ -164,6 +176,36 @@ void GammaGo::makeMove(MOVEMENT &mvmt)//执行走子
     
     s_board[dst_y][dst_x] = s_board[src_y][src_x];
     s_board[src_y][src_x] = NoChess;
+}
+
+bool GammaGo::gameOver(int & winner)
+{
+	bool red_win = false, black_win = true;
+	for(int i = 0; i <= 2; i++)
+		for (int j = 3; j <= 5; j++)
+			if (s_board[i][j] == R_KING)
+			{
+				black_win = false;
+				break;
+			}
+	if (black_win == true)
+	{
+		winner = BLACK;
+		return true;
+	}
+	for (int i = 7; i <= 9; i++)
+		for (int j = 3; j <= 5; j++)
+			if (s_board[i][j] == B_KING)
+			{
+				red_win = false;
+				break;
+			}
+	if (red_win == true)
+	{
+		winner = RED;
+		return true;
+	}
+	return false;
 }
 
 

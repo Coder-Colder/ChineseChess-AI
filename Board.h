@@ -4,6 +4,8 @@
 #include "Chess.h"
 #include "define.h"
 
+extern Chess * chess[32];
+
 class Board//记录棋局形势
 {
 public:
@@ -13,6 +15,6 @@ public:
 	bool getRKing(CHESSPOS & pos);//获取红帅
 	bool getBKing(CHESSPOS & pos);//获取黑帅
 	Board();
-	~Board();
+	~Board() {}
 };
 #endif

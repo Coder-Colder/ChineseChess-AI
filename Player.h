@@ -14,7 +14,7 @@ class Player
 protected:
     unsigned char side;//玩家阵营
 public:
-    Player(bool size = RED):side(side){}
+    Player(unsigned char side = RED):side(side){}
     virtual ~Player(){}
     virtual void play(Board &board, MOVEMENT &mvmt) = 0;
 };

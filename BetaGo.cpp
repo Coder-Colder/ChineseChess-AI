@@ -1,4 +1,4 @@
-#include "BetaGo.h"
+﻿#include "BetaGo.h"
 
 const int R_PAWN_value[10][9] = {
     {   0,      0,      0,      0,      0,      0,      0,      0,      0},
@@ -24,5 +24,5 @@ const int B_PAWN_value[10][9] = {
     {   0,      0,      0,      0,      0,      0,      0,      0,      0},
     {   0,      0,      0,      0,      0,      0,      0,      0,      0},
     {   0,      0,      0,      0,      0,      0,      0,      0,      0}
-}
+};
 

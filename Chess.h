@@ -12,9 +12,9 @@ public:
 	CHESSPOS pos;//棋子在棋盘上的位置
 public:
 	Chess(CHESSPOS pos, bool exist = true):pos(pos),exist(exist) {}
-	inline void setPos(CHESSPOS &pos){this->pos = pos;}//设置棋子在棋盘上的位置
-	inline void setExist(){this->exist = true;}//可以直接访问成员或者调用
-	inline void disExist(){this->exist = false;}//可以直接访问成员或者调用
+	void setPos(CHESSPOS & pos){this->pos = pos;}//设置棋子在棋盘上的位置
+	void setExist(){this->exist = true;}//可以直接访问成员或者调用
+	void disExist(){this->exist = false;}//可以直接访问成员或者调用
 	virtual ~Chess() {}
 	virtual bool moveValid(CHESSPOS &tar, char board[10][9]) = 0;					   //确定目标移动位置合法性:针对棋子特定的移动规则
 	virtual void generateMovement(vector<MOVEMENT> &moveList, char board[10][9]) = 0; //生成所有的合法的走子位置

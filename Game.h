@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "BetaGo.h"
+#include "GammaGo.h"
 #include "Human.h"
 #include "Board.h"
 
@@ -22,7 +23,7 @@ class Game//游戏运行主逻辑
 public:
 	Game(int mode = HvsM);
 	~Game() {delete Red; delete Black;}
-	int gameStart(int mode);//返回赢棋的一方
+	int Start();//返回赢棋的一方
 private:
     void gameOverCheck(int side);//在side方走子后判断棋局是否结束
 };

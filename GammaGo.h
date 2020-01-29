@@ -12,7 +12,7 @@ using namespace std;
 
 class GammaGo:public Player
 {
-    int s_board[10][9];
+    char s_board[10][9];
     int time;
     int size;
     vector<int> hit_cnt;//命中次数记录
