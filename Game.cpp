@@ -4,18 +4,6 @@ using namespace std;
 
 Game::Game()
 {
-    for(int i = 0; i < 14; i++)
-    {
-        for(int j = 0; j < 13; j++)
-        {
-            if((i <= 1 || i >= 12) && (j <= 1 || j >= 11))
-                _board[i][j] = 0;
-            else if((i <= 4 || i >= 9) && (j >= 5 && j <= 7))
-                _board[i][j] = 2;
-            else
-                _board[i][j] = 1;
-        }
-    }
     over_flag = GMAEON;
 }
 

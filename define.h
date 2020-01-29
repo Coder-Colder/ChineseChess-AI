@@ -14,6 +14,7 @@ struct MOVEMENT//走子描述
 	CHESSPOS tar;
 };
 
+
 /*chess id*/
 #define R_KING 		0 
 #define R_GUARD1	1 
@@ -51,8 +52,18 @@ struct MOVEMENT//走子描述
 #define NoChess 	32 
 
 #define is_Red(CHESSID) CHESSID <= 15 && CHESSID >= 0
-#define is_Black(CHESSID) CHESSID <= 32 && CHESSID >= 16
+#define is_Black(CHESSID) CHESSID <= 31 && CHESSID >= 16
 
-int _board[14][13];//辅助棋盘
+
+#define OUTBOARD 0
+#define INBOARD 1
+#define RSQUARE 2
+#define BSQUARE 3
+
+extern int flagBoard[14][13];
+
+#define is_outBoard(FLAG) FLAG == OUTBOARD
+#define is_outRedPalace(FLAG) FLAG == RSQUARE
+#define is_outBlackPalace(FLAG) FLAG == BSQUARE
 
 #endif

@@ -14,6 +14,6 @@ public:
 	bool getRKing(CHESSPOS & pos);//获取红帅
 	bool getBKing(CHESSPOS & pos);//获取黑帅
 	Board();
-	~Board() {}
+	~Board();
 };
 #endif
