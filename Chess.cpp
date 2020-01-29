@@ -31,7 +31,7 @@ bool getRKing(CHESSPOS &pos, int board[10][9])
 	{
 		for (int j = 3; j < 6; j++)
 		{
-			if (board[i][j] == 1)
+			if( board[i][j] == R_KING)
 			{
 				pos.x = j;
 				pos.y = i;
@@ -47,7 +47,7 @@ bool getBKing(CHESSPOS &pos, int board[10][9])
 	{
 		for (int j = 3; j < 6; j++)
 		{
-			if (board[i][j] == 1)
+			if (board[i][j] == B_KING)
 			{
 				pos.x = j;
 				pos.y = i;
@@ -436,7 +436,7 @@ void B_Pawn::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boar
 
 bool R_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
-	
+
 }
 
 void R_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
