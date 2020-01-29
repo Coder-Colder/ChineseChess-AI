@@ -62,12 +62,14 @@ bool R_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
 	if (is_outBoard(flagBoard[tar.y][tar.x]))
 		return false;
+	//上下左右四个方向判断
 	if ((tar.x != cur.x + 1 || tar.x != cur.x - 1) && tar.y == cur.y)
 		return false;
 	if ((tar.y != cur.y + 1 || tar.y != cur.y - 1) && tar.x == cur.x)
 		return false;
 	if (is_Red(board[tar.y][tar.x]))
 		return false;
+	//检查二王相见
 	CHESSPOS B_King_Pos;
 	getBKing(B_King_Pos, board);
 	if (tar.x == B_King_Pos.x)
@@ -84,8 +86,9 @@ bool R_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 
 void R_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
 {
-	int offset[2] = {1, -1};
+	int offset[2] = {1, -1}; //辅助数组，便于循环
 	CHESSPOS temp;
+	//判断上下两个位置
 	for (int i = 0; i < 2; i++)
 	{
 		temp.x = cur.x;
@@ -95,6 +98,7 @@ void R_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boar
 			tar_pos.push_back(temp);
 		}
 	}
+	//判断左右两个位置
 	for (int i = 0; i < 2; i++)
 	{
 		temp.x = cur.x + offset[i];
@@ -110,12 +114,14 @@ bool B_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
 	if (is_outBoard(flagBoard[tar.y][tar.x]))
 		return false;
+	//上下左右四个方向判断
 	if ((tar.x != cur.x + 1 || tar.x != cur.x - 1) && tar.y == cur.y)
 		return false;
 	if ((tar.y != cur.y + 1 || tar.y != cur.y - 1) && tar.x == cur.x)
 		return false;
 	if (is_Black(board[tar.y][tar.x]))
 		return false;
+	//检查二王相见
 	CHESSPOS R_King_Pos;
 	getRKing(R_King_Pos, board);
 	if (tar.x == R_King_Pos.x)
@@ -132,8 +138,9 @@ bool B_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 
 void B_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
 {
-	int offset[2] = {1, -1};
+	int offset[2] = {1, -1};//辅助数组，便于循环
 	CHESSPOS temp;
+	//判断上下两个位置
 	for (int i = 0; i < 2; i++)
 	{
 		temp.x = cur.x;
@@ -143,6 +150,7 @@ void B_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boar
 			tar_pos.push_back(temp);
 		}
 	}
+	//判断左右两个位置
 	for (int i = 0; i < 2; i++)
 	{
 		temp.x = cur.x + offset[i];
@@ -156,8 +164,10 @@ void B_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boar
 
 bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
+	//士在九宫中心，可能走4个位置
 	if (cur.y == 1 && cur.x == 4)
 	{
+		//用循环对四个位置进行判断
 		int offset_x[2] = {3, 5};
 		int offset_y[2] = {0, 2};
 		for (int i = 0; i < 2; i++)
@@ -169,6 +179,7 @@ bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 			}
 		}
 	}
+	//士在九宫4角，只可能走到中心
 	else
 	{
 		if (tar.x == 4 && tar.y == 1 && !is_Red(board[1][4]) && !twoKingMeet(cur, tar, board))
@@ -180,6 +191,7 @@ bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 void R_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
 {
 	CHESSPOS temp;
+	//同理对4角是否能走进行判断
 	if (cur.y == 1 && cur.x == 4)
 	{
 		int offset_x[2] = {3, 5};
@@ -260,6 +272,7 @@ void B_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 
 bool R_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
+	//两个辅助数组，用于在循环找到象眼和可以走的位置
 	int offset_eye[2] = {1, -1};
 	int offset[2] = {2, -2};
 	for (int i = 0; i < 2; i++)
@@ -338,6 +351,7 @@ bool R_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 {
 	if (is_outBoard(flagBoard[tar.y][tar.x]))
 		return false;
+	//兵过河的情况，有3种走法，分别判断
 	if (cur.y > 4)
 	{
 		if (tar.x == cur.x + 1 && tar.y == cur.y && !is_Red(board[tar.y][tar.x]))
@@ -349,6 +363,7 @@ bool R_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		else
 			return false;
 	}
+	//兵没有过河，只有一种走法
 	else
 	{
 		if (tar.x == cur.x && tar.y == cur.y + 1 && !is_Red(board[tar.y][tar.x]))
@@ -361,6 +376,7 @@ bool R_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 void R_Pawn::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
 {
 	CHESSPOS temp;
+	//同理，兵过河的情况，有3种走法，分别判断
 	if (cur.y > 4)
 	{
 		temp.x = cur.x + 1;
