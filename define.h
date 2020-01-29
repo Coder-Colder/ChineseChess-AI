@@ -6,12 +6,20 @@ struct CHESSPOS//棋子位置
 {
 	int x;
 	int y;
+public:
+	CHESSPOS(int x = 0, int y = 0):x(x), y(y) { }
+	CHESSPOS(const CHESSPOS & pos):x(pos.x), y(pos.y) { }
+	CHESSPOS & operator = (const CHESSPOS & pos ){ this->x = pos.x; this->y = pos.y; }
 };
 
 struct MOVEMENT//走子描述
 {
 	CHESSPOS src;
 	CHESSPOS tar;
+public:
+	MOVEMENT(CHESSPOS src = CHESSPOS(), CHESSPOS tar = CHESSPOS()):src(src), tar(tar) { }
+	MOVEMENT(const MOVEMENT & mvmt):src(mvmt.src), tar(mvmt.tar) { }
+	MOVEMENT & operator = (const MOVEMENT & mvmt) { this->src = mvmt.src; this->tar = mvmt.tar; }
 };
 
 

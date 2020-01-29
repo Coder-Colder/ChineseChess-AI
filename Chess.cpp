@@ -17,18 +17,13 @@ static int flagBoard[14][13] = {
 	{OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD}
 };
 
-bool twoKingMeet(CHESSPOS & src, CHESSPOS & tar, int board[10][9])
-{
-
-}
-
 bool getRKing(CHESSPOS & pos, int board[10][9])
 {
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 3; j < 6; j++)
 		{
-			if( board[i][j] == 1)
+			if( board[i][j] == R_KING)
 			{
 				pos.x = j;
 				pos.y = i;
@@ -44,7 +39,7 @@ bool getBKing(CHESSPOS & pos, int board[10][9])
 	{
 		for (int j = 3; j < 6; j++)
 		{
-			if (board[i][j] == 1)
+			if (board[i][j] == B_KING)
 			{
 				pos.x = j;
 				pos.y = i;
