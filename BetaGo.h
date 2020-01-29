@@ -2,8 +2,7 @@
 #ifndef BETAGO_H
 #define BETAGO_H
 
-#include "define.h"
-#include "Board.h"
+#include "Player.h"
 
 //定义每种棋子的价值
 #define BASEVELUE_PAWN 100
@@ -22,12 +21,13 @@
 #define FLEXIBILITY_CANNON 6
 #define FLEXIBILITY_KING 0
 
-class BetaGo
+class BetaGo:public Player
 {
 public:
-	BetaGo() {}
+	BetaGo(unsigned char side = RED):Player(side) {}
 	~BetaGo() {}
 	void play(Board &board, MOVEMENT &mvmt);
+private:
 	int evaluate(Board &board);
 };
 #endif // !BETAGO_H

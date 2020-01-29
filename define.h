@@ -58,8 +58,14 @@ public:
 #define B_CAR2 31
 #define NoChess 32
 
+#define RedBegin 0
+#define RedEnd 15
+#define BlackBegin 16
+#define BlackEnd 31
+
 #define is_Red(CHESSID) CHESSID <= 15 && CHESSID >= 0
 #define is_Black(CHESSID) CHESSID <= 31 && CHESSID >= 16
+#define is_Chess(CHESSID) CHESSID != NoChess
 
 #define OUTBOARD 0
 #define INBOARD 1
