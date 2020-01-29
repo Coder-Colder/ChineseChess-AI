@@ -45,7 +45,7 @@ Board::Board()
         }
     }
     
-    for(int i = 0 ; i < 32; i++)
+    /*for(int i = 0 ; i < 32; i++)
     {
         switch (i)
         {
@@ -113,7 +113,7 @@ Board::Board()
         default:
             assert(0);
         }
-    }
+    }*/
 
     board[0][0] = R_CAR1;
     board[0][8] = R_CAR2;

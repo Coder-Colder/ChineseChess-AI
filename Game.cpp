@@ -2,6 +2,56 @@
 #include <iostream>
 using namespace std;
 
+R_King      r_king;
+R_Guard     r_guard;
+R_Bishop    r_bishop;
+R_Pawn      r_pawn;
+R_Horse     r_horse;
+R_Cannon    r_cannon;
+R_Car       r_car;
+B_King      b_king;
+B_Guard     b_guard;
+B_Bishop    b_bishop;
+B_Pawn      b_pawn;
+B_Horse     b_horse;
+B_Cannon    b_cannon;
+B_Car       b_car;
+
+Chess * chess[32] ={
+    &r_king,
+    &r_guard,
+    &r_guard,
+    &r_bishop,
+    &r_bishop,
+    &r_pawn,
+    &r_pawn,
+    &r_pawn,
+    &r_pawn,
+    &r_pawn,
+    &r_horse,
+    &r_horse,
+    &r_cannon,
+    &r_cannon,
+    &r_car,
+    &r_car,
+    &b_king,
+    &b_guard,
+    &b_guard,
+    &b_bishop,
+    &b_bishop,
+    &b_pawn,
+    &b_pawn,
+    &b_pawn,
+    &b_pawn,
+    &b_pawn,
+    &b_horse,
+    &b_horse,
+    &b_cannon,
+    &b_cannon,
+    &b_car,
+    &b_car,
+};
+
 Game::Game()
 {
     over_flag = GMAEON;
