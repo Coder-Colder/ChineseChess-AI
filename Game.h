@@ -11,11 +11,6 @@
 #define HvsM 1 // 人对机器
 #define HvsH 2 // 人对人
 
-/*side / over_flag*/
-#define GMAEON 0
-#define RED 1
-#define BLACK 2
-
 class Game//游戏运行主逻辑
 {
 	Board board;
@@ -24,6 +19,7 @@ public:
 	Game();
 	~Game() {}
 	int gameStart(int mode);//返回赢棋的一方
+private:
     void gameOverCheck(int side);//在side方走子后判断棋局是否结束
 };
 #endif // !GAME_H

@@ -52,10 +52,13 @@ Chess * chess[32] ={
     &b_car,
 };
 
-Game::Game()
-{
-    over_flag = GMAEON;
-}
+
+/*side / over_flag*/
+#define GMAEON 0
+#define RED 1
+#define BLACK 2
+
+Game::Game() { over_flag = GMAEON; }
 
 int Game::gameStart(int mode)
 {
