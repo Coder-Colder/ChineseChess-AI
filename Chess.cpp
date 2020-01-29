@@ -1,6 +1,6 @@
 #include "Chess.h"
 #include <vector>
-bool twoKingMeet(CHESSPOS &pos, CHESSPOS &tar, int board[10][9])
+bool twoKingMeet(CHESSPOS &pos, CHESSPOS &tar, char board[10][9])
 {
 	CHESSPOS R_King_Pos;
 	getRKing(R_King_Pos, board);
@@ -25,7 +25,7 @@ bool twoKingMeet(CHESSPOS &pos, CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-bool getRKing(CHESSPOS &pos, int board[10][9])
+bool getRKing(CHESSPOS &pos, char board[10][9])
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -41,7 +41,7 @@ bool getRKing(CHESSPOS &pos, int board[10][9])
 	}
 	return false;
 }
-bool getBKing(CHESSPOS &pos, int board[10][9])
+bool getBKing(CHESSPOS &pos, char board[10][9])
 {
 	for (int i = 7; i < 10; i++)
 	{
@@ -58,7 +58,7 @@ bool getBKing(CHESSPOS &pos, int board[10][9])
 	return false;
 }
 
-bool R_King::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_King::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x))
 		return false;
@@ -84,7 +84,7 @@ bool R_King::moveValid(CHESSPOS &tar, int board[10][9])
 	return true;
 }
 
-void R_King::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_King::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	int offset[2] = {1, -1}; //辅助数组，便于循环
 	CHESSPOS temp;
@@ -110,7 +110,7 @@ void R_King::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_King::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_King::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x))
 		return false;
@@ -136,7 +136,7 @@ bool B_King::moveValid(CHESSPOS &tar, int board[10][9])
 	return true;
 }
 
-void B_King::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_King::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	int offset[2] = {1, -1}; //辅助数组，便于循环
 	CHESSPOS temp;
@@ -162,7 +162,7 @@ void B_King::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Guard::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Guard::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	//士在九宫中心，可能走4个位置
 	if (pos.y == 1 && pos.x == 4)
@@ -188,7 +188,7 @@ bool R_Guard::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void R_Guard::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Guard::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//同理对4角是否能走进行判断
@@ -218,7 +218,7 @@ void R_Guard::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Guard::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Guard::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (pos.y == 8 && pos.x == 4)
 	{
@@ -241,7 +241,7 @@ bool B_Guard::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void B_Guard::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Guard::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	if (pos.y == 1 && pos.x == 4)
@@ -270,7 +270,7 @@ void B_Guard::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Bishop::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Bishop::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	//两个辅助数组，用于在循环找到象眼和可以走的位置
 	int offset_eye[2] = {1, -1};
@@ -290,7 +290,7 @@ bool R_Bishop::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void R_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	int offset_eye[2] = {1, -1};
@@ -309,7 +309,7 @@ void R_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Bishop::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Bishop::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	int offset_eye[2] = {1, -1};
 	int offset[2] = {2, -2};
@@ -328,7 +328,7 @@ bool B_Bishop::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void B_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	int offset_eye[2] = {1, -1};
@@ -347,7 +347,7 @@ void B_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Pawn::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Pawn::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (twoKingMeet(pos, tar, board))
 		return false;
@@ -373,7 +373,7 @@ bool R_Pawn::moveValid(CHESSPOS &tar, int board[10][9])
 	}
 }
 
-void R_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//同理，兵过河的情况，有3种走法，分别判断
@@ -400,7 +400,7 @@ void R_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Pawn::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Pawn::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (twoKingMeet(pos, tar, board))
 		return false;
@@ -424,7 +424,7 @@ bool B_Pawn::moveValid(CHESSPOS &tar, int board[10][9])
 	}
 }
 
-void B_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	if (pos.y < 5)
@@ -450,7 +450,7 @@ void B_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Horse::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Horse::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (twoKingMeet(pos, tar, board))
 		return false;
@@ -473,7 +473,7 @@ bool R_Horse::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void R_Horse::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Horse::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//辅助数组，便于在循环中找到马眼的位置
@@ -501,7 +501,7 @@ void R_Horse::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Horse::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Horse::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (twoKingMeet(pos, tar, board))
 		return false;
@@ -524,7 +524,7 @@ bool B_Horse::moveValid(CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void B_Horse::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Horse::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//辅助数组，便于在循环中找到马眼的位置
@@ -552,7 +552,7 @@ void B_Horse::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Cannon::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Cannon::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
@@ -684,7 +684,7 @@ bool R_Cannon::moveValid(CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
@@ -772,7 +772,7 @@ void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Cannon::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Cannon::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
@@ -904,7 +904,7 @@ bool B_Cannon::moveValid(CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
@@ -992,7 +992,7 @@ void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool R_Car::moveValid(CHESSPOS &tar, int board[10][9])
+bool R_Car::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
@@ -1044,7 +1044,7 @@ bool R_Car::moveValid(CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void R_Car::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void R_Car::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
@@ -1108,7 +1108,7 @@ void R_Car::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
 	}
 }
 
-bool B_Car::moveValid(CHESSPOS &tar, int board[10][9])
+bool B_Car::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
@@ -1160,7 +1160,7 @@ bool B_Car::moveValid(CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void B_Car::generateMovement(vector<MOVEMENT> &tar_pos, int board[10][9])
+void B_Car::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找

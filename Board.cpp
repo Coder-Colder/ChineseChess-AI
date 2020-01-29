@@ -1,6 +1,6 @@
 ﻿#include "Board.h"
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 using namespace std;
 
 /*
