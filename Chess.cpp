@@ -533,18 +533,18 @@ void B_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 	//辅助数组，便于在循环中找到马可以跳的位置
 	int offset_x[8] = {1, -1, 1, -1, 2, 2, -2, -2};
 	int offset_y[8] = {2, 2, -2, -2, 1, -1, 1, -1};
-	for (int i = 0, int j = 0; i < 4, j < 4; i++, j++)
+	for (int i = 0, i < 4; i++)
 	{
 		//判断马眼是否被堵住
 		int eye_x = cur.x + offset_eye_x[i];
-		int eye_y = cur.y + offset_eye_y[j];
+		int eye_y = cur.y + offset_eye_y[i];
 		if (!is_outBoard(eye_y, eye_x) && board[eye_y][eye_x] == NoChess)
 		{
 			//若没有被堵住，则判断对应的两个位置是否可以走
 			for (int k = 0; k < 2; k++)
 			{
 				temp.x = cur.x + offset_x[i * 2 + k];
-				temp.y = cur.y + offset_y[j * 2 + k];
+				temp.y = cur.y + offset_y[i * 2 + k];
 				if (!is_outBoard(temp.y, temp.x) && !is_Black(board[temp.y][temp.x]))
 					tar_pos.push_back(temp);
 			}
