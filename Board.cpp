@@ -1,6 +1,6 @@
 ﻿#include "Board.h"
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 using namespace std;
 
 /*
@@ -44,7 +44,8 @@ Board::Board()
             board[i][j] = NoChess;
         }
     }
-    for(int i = 0 ; i < 32; i++)
+    
+    /*for(int i = 0 ; i < 32; i++)
     {
         switch (i)
         {
@@ -112,7 +113,7 @@ Board::Board()
         default:
             assert(0);
         }
-    }
+    }*/
 
     board[0][0] = R_CAR1;
     board[0][8] = R_CAR2;
@@ -157,6 +158,7 @@ Board::Board()
 
 void Board::display()
 {
+	cout << endl << endl;
     cout<<"  ";
     for(int i = 0; i < 9; i++)
         cout<<i<<"      ";
@@ -261,8 +263,15 @@ void Board::moveNext(MOVEMENT & move)
     int dst_x = move.tar.x;
     int dst_y = move.tar.y;
 
+    int src_chess_id = board[src_y][src_x];
+    int dst_chess_id = board[dst_y][dst_x];
+
+    if(is_Chess(dst_chess_id))
+        chess[dst_chess_id]->exist = false;
+    chess[src_chess_id]->setPos(move.tar);
+    
     board[dst_y][dst_x] = board[src_y][src_x];
-    board[dst_y][dst_x] = board[src_y][src_x];
+    board[src_y][src_x] = NoChess;
 }
 
 bool Board::getRKing(CHESSPOS & pos)

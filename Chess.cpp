@@ -1,31 +1,24 @@
 #include "Chess.h"
 #include <vector>
-bool twoKingMeet(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
-{
-	CHESSPOS R_King_Pos;
-	getRKing(R_King_Pos, board);
-	CHESSPOS B_King_Pos;
-	getBKing(B_King_Pos, board);
-	//先检查两王是否在一条线上，在检查当前棋子是否在两王之间
-	if (R_King_Pos.x == B_King_Pos.x && R_King_Pos.x == cur.x && cur.x != tar.x && cur.y > R_King_Pos.y && cur.y < B_King_Pos.y)
-	{
-		//确定当前棋子是两王之间唯一的棋子
-		for (int i = cur.y; i < B_King_Pos.y, i++)
-		{
-			if (board[i][cur.x] != 0)
-				return false;
-		}
-		for (int i = cur.y; i > R_King_Pos.y, i--)
-		{
-			if (board[i][cur.x] != 0)
-				return false;
-		}
-		return true;
-	}
-	return false;
-}
 
-bool getRKing(CHESSPOS &pos, int board[10][9])
+int flagBoard[14][13] = {
+	{OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	RSQUARE,	RSQUARE,	RSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	RSQUARE,	RSQUARE,	RSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	RSQUARE,	RSQUARE,	RSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	BSQUARE,	BSQUARE,	BSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	BSQUARE,	BSQUARE,	BSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	INBOARD,	INBOARD,	INBOARD,	BSQUARE,	BSQUARE,	BSQUARE,	INBOARD,	INBOARD,	INBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD},
+	{OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD,	OUTBOARD}
+};
+
+bool getRKing(CHESSPOS &pos, char board[10][9])
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -41,7 +34,7 @@ bool getRKing(CHESSPOS &pos, int board[10][9])
 	}
 	return false;
 }
-bool getBKing(CHESSPOS &pos, int board[10][9])
+bool getBKing(CHESSPOS &pos, char board[10][9])
 {
 	for (int i = 7; i < 10; i++)
 	{
@@ -58,14 +51,39 @@ bool getBKing(CHESSPOS &pos, int board[10][9])
 	return false;
 }
 
-bool R_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool twoKingMeet(CHESSPOS &pos, CHESSPOS &tar, char board[10][9])
+{
+	CHESSPOS R_King_Pos;
+	getRKing(R_King_Pos, board);
+	CHESSPOS B_King_Pos;
+	getBKing(B_King_Pos, board);
+	//先检查两王是否在一条线上，在检查当前棋子是否在两王之间
+	if (R_King_Pos.x == B_King_Pos.x && R_King_Pos.x == pos.x && pos.x != tar.x && pos.y > R_King_Pos.y && pos.y < B_King_Pos.y)
+	{
+		//确定当前棋子是两王之间唯一的棋子
+		for (int i = pos.y; i < B_King_Pos.y; i++)
+		{
+			if (board[i][pos.x] != 0)
+				return false;
+		}
+		for (int i = pos.y; i > R_King_Pos.y; i--)
+		{
+			if (board[i][pos.x] != 0)
+				return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+bool R_King::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x))
 		return false;
 	//上下左右四个方向判断
-	if ((tar.x != cur.x + 1 || tar.x != cur.x - 1) && tar.y == cur.y)
+	if ((tar.x != pos.x + 1 || tar.x != pos.x - 1) && tar.y == pos.y)
 		return false;
-	if ((tar.y != cur.y + 1 || tar.y != cur.y - 1) && tar.x == cur.x)
+	if ((tar.y != pos.y + 1 || tar.y != pos.y - 1) && tar.x == pos.x)
 		return false;
 	if (is_Red(board[tar.y][tar.x]))
 		return false;
@@ -75,7 +93,7 @@ bool R_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	if (tar.x == B_King_Pos.x)
 	{
 		int i;
-		for (int i = tar.y + 1; i < B_King_Pos.y; i++)
+		for (i = tar.y + 1; i < B_King_Pos.y; i++)
 			if (board[i][tar.x] != 0)
 				break;
 		if (i == B_King_Pos.y)
@@ -84,40 +102,40 @@ bool R_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return true;
 }
 
-void R_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_King::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	int offset[2] = {1, -1}; //辅助数组，便于循环
 	CHESSPOS temp;
 	//判断上下两个位置
 	for (int i = 0; i < 2; i++)
 	{
-		temp.x = cur.x;
-		temp.y = cur.y + offset[i];
-		if (!is_Red(board[temp.y][temp.x]) && !is_outRedPalace(temp.y, temp.x))
+		temp.x = pos.x;
+		temp.y = pos.y + offset[i];
+		if (!is_Red(board[temp.y][temp.x]) && is_inRedPalace(temp.y, temp.x))
 		{
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 	//判断左右两个位置
 	for (int i = 0; i < 2; i++)
 	{
-		temp.x = cur.x + offset[i];
-		temp.y = cur.y;
-		if (!is_Red(board[temp.y][temp.x]) && !is_outRedPalace(temp.y, temp.x))
+		temp.x = pos.x + offset[i];
+		temp.y = pos.y;
+		if (!is_Red(board[temp.y][temp.x]) && is_inRedPalace(temp.y, temp.x))
 		{
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 }
 
-bool B_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_King::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	if (is_outBoard(tar.y, tar.x))
 		return false;
 	//上下左右四个方向判断
-	if ((tar.x != cur.x + 1 || tar.x != cur.x - 1) && tar.y == cur.y)
+	if ((tar.x != pos.x + 1 || tar.x != pos.x - 1) && tar.y == pos.y)
 		return false;
-	if ((tar.y != cur.y + 1 || tar.y != cur.y - 1) && tar.x == cur.x)
+	if ((tar.y != pos.y + 1 || tar.y != pos.y - 1) && tar.x == pos.x)
 		return false;
 	if (is_Black(board[tar.y][tar.x]))
 		return false;
@@ -127,7 +145,7 @@ bool B_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	if (tar.x == R_King_Pos.x)
 	{
 		int i;
-		for (int i = tar.y - 1; i > R_King_Pos.y; i--)
+		for ( i = tar.y - 1; i > R_King_Pos.y; i--)
 			if (board[i][tar.x] != 0)
 				break;
 		if (i == R_King_Pos.y)
@@ -136,36 +154,36 @@ bool B_King::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return true;
 }
 
-void B_King::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_King::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	int offset[2] = {1, -1}; //辅助数组，便于循环
 	CHESSPOS temp;
 	//判断上下两个位置
 	for (int i = 0; i < 2; i++)
 	{
-		temp.x = cur.x;
-		temp.y = cur.y + offset[i];
-		if (!is_Black(board[temp.y][temp.x]) && !is_outBlackPalace(temp.y, temp.x))
+		temp.x = pos.x;
+		temp.y = pos.y + offset[i];
+		if (!is_Black(board[temp.y][temp.x]) && is_inBlackPalace(temp.y, temp.x))
 		{
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 	//判断左右两个位置
 	for (int i = 0; i < 2; i++)
 	{
-		temp.x = cur.x + offset[i];
-		temp.y = cur.y;
-		if (!is_Black(board[temp.y][temp.x]) && !is_outBlackPalace(temp.y, temp.x))
+		temp.x = pos.x + offset[i];
+		temp.y = pos.y;
+		if (!is_Black(board[temp.y][temp.x]) && is_inBlackPalace(temp.y, temp.x))
 		{
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 }
 
-bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Guard::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	//士在九宫中心，可能走4个位置
-	if (cur.y == 1 && cur.x == 4)
+	if (pos.y == 1 && pos.x == 4)
 	{
 		//用循环对四个位置进行判断
 		int offset_x[2] = {3, 5};
@@ -174,7 +192,7 @@ bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				if (tar.x == offset_x[i] && tar.y == offset_y[j] && !is_Red(board[tar.y][tar.x]) && !twoKingMeet(cur, tar, board))
+				if (tar.x == offset_x[i] && tar.y == offset_y[j] && !is_Red(board[tar.y][tar.x]) && !twoKingMeet(pos, tar, board))
 					return true;
 			}
 		}
@@ -182,17 +200,17 @@ bool R_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	//士在九宫4角，只可能走到中心
 	else
 	{
-		if (tar.x == 4 && tar.y == 1 && !is_Red(board[1][4]) && !twoKingMeet(cur, tar, board))
+		if (tar.x == 4 && tar.y == 1 && !is_Red(board[1][4]) && !twoKingMeet(pos, tar, board))
 			return true;
 	}
 	return false;
 }
 
-void R_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Guard::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//同理对4角是否能走进行判断
-	if (cur.y == 1 && cur.x == 4)
+	if (pos.y == 1 && pos.x == 4)
 	{
 		int offset_x[2] = {3, 5};
 		int offset_y[2] = {0, 2};
@@ -204,7 +222,7 @@ void R_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 				temp.y = offset_y[i];
 				if (!is_Red(board[temp.y][temp.x]))
 				{
-					tar_pos.push_back(temp);
+					tar_pos.push_back(MOVEMENT(pos,temp));
 				}
 			}
 		}
@@ -214,13 +232,13 @@ void R_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 		temp.x = 4;
 		temp.y = 1;
 		if (!is_Red(board[1][4]))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 }
 
-bool B_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Guard::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (cur.y == 8 && cur.x == 4)
+	if (pos.y == 8 && pos.x == 4)
 	{
 		int offset_x[2] = {3, 5};
 		int offset_y[2] = {7, 9};
@@ -228,23 +246,23 @@ bool B_Guard::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				if (tar.x == offset_x[i] && tar.y == offset_y[j] && !is_Black(board[tar.y][tar.x]) && !twoKingMeet(cur, tar, board))
+				if (tar.x == offset_x[i] && tar.y == offset_y[j] && !is_Black(board[tar.y][tar.x]) && !twoKingMeet(pos, tar, board))
 					return true;
 			}
 		}
 	}
 	else
 	{
-		if (tar.x == 4 && tar.y == 8 && !is_Black(board[8][4]) && !twoKingMeet(cur, tar, board))
+		if (tar.x == 4 && tar.y == 8 && !is_Black(board[8][4]) && !twoKingMeet(pos, tar, board))
 			return true;
 	}
 	return false;
 }
 
-void B_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Guard::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
-	if (cur.y == 1 && cur.x == 4)
+	if (pos.y == 1 && pos.x == 4)
 	{
 		int offset_x[2] = {3, 5};
 		int offset_y[2] = {7, 9};
@@ -256,7 +274,7 @@ void B_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 				temp.y = offset_y[i];
 				if (!is_Black(board[temp.y][temp.x]))
 				{
-					tar_pos.push_back(temp);
+					tar_pos.push_back(MOVEMENT(pos,temp));
 				}
 			}
 		}
@@ -266,11 +284,11 @@ void B_Guard::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 		temp.x = 4;
 		temp.y = 8;
 		if (!is_Red(board[8][4]))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 }
 
-bool R_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Bishop::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	//两个辅助数组，用于在循环找到象眼和可以走的位置
 	int offset_eye[2] = {1, -1};
@@ -279,9 +297,9 @@ bool R_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			int eye_x = cur.x + offset_eye[j];
-			int eye_y = cur.y + offset_eye[i];
-			if (tar.x == cur.x + offset[j] && tar.y == cur.y + offset[i] && !is_Red(board[tar.y][tar.x]) && board[eye_y][eye_x] == NoChess && !twoKingMeet(cur, tar, board))
+			int eye_x = pos.x + offset_eye[j];
+			int eye_y = pos.y + offset_eye[i];
+			if (tar.x == pos.x + offset[j] && tar.y == pos.y + offset[i] && !is_Red(board[tar.y][tar.x]) && board[eye_y][eye_x] == NoChess && !twoKingMeet(pos, tar, board))
 			{
 				return true;
 			}
@@ -290,7 +308,7 @@ bool R_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void R_Bishop::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	int offset_eye[2] = {1, -1};
@@ -299,17 +317,17 @@ void R_Bishop::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int bo
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			temp.x = cur.x + offset[j];
-			temp.y = cur.y + offset[i];
-			int eye_x = cur.x + offset_eye[j];
-			int eye_y = cur.y + offset_eye[i];
+			temp.x = pos.x + offset[j];
+			temp.y = pos.y + offset[i];
+			int eye_x = pos.x + offset_eye[j];
+			int eye_y = pos.y + offset_eye[i];
 			if (!is_outBoard(temp.y, temp.x) && !is_Red(board[temp.y][temp.x]) && board[eye_y][eye_x] == NoChess)
-				tar_pos.push_back(temp);
+				tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 }
 
-bool B_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Bishop::moveValid(CHESSPOS &tar, char board[10][9])
 {
 	int offset_eye[2] = {1, -1};
 	int offset[2] = {2, -2};
@@ -317,9 +335,9 @@ bool B_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			int eye_x = cur.x + offset_eye[j];
-			int eye_y = cur.y + offset_eye[i];
-			if (tar.x == cur.x + offset[j] && tar.y == cur.y + offset[i] && !is_Black(board[tar.y][tar.x]) && board[eye_y][eye_x] == NoChess && !twoKingMeet(cur, tar, board))
+			int eye_x = pos.x + offset_eye[j];
+			int eye_y = pos.y + offset_eye[i];
+			if (tar.x == pos.x + offset[j] && tar.y == pos.y + offset[i] && !is_Black(board[tar.y][tar.x]) && board[eye_y][eye_x] == NoChess && !twoKingMeet(pos, tar, board))
 			{
 				return true;
 			}
@@ -328,7 +346,7 @@ bool B_Bishop::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void B_Bishop::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Bishop::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	int offset_eye[2] = {1, -1};
@@ -337,28 +355,28 @@ void B_Bishop::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int bo
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			temp.x = cur.x + offset[j];
-			temp.y = cur.y + offset[i];
-			int eye_x = cur.x + offset_eye[j];
-			int eye_y = cur.y + offset_eye[i];
+			temp.x = pos.x + offset[j];
+			temp.y = pos.y + offset[i];
+			int eye_x = pos.x + offset_eye[j];
+			int eye_y = pos.y + offset_eye[i];
 			if (!is_outBoard(temp.y, temp.x) && !is_Black(board[temp.y][temp.x]) && board[eye_y][eye_x] == NoChess)
-				tar_pos.push_back(temp);
+				tar_pos.push_back(MOVEMENT(pos,temp));
 		}
 	}
 }
 
-bool R_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Pawn::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (twoKingMeet(cur, tar, board))
+	if (twoKingMeet(pos, tar, board))
 		return false;
 	//兵过河的情况，有3种走法，分别判断
-	if (cur.y > 4)
+	if (pos.y > 4)
 	{
-		if (tar.x == cur.x + 1 && tar.y == cur.y && !is_Red(board[tar.y][tar.x]))
+		if (tar.x == pos.x + 1 && tar.y == pos.y && !is_Red(board[tar.y][tar.x]))
 			return true;
-		else if (tar.x == cur.x - 1 && tar.y == cur.y && !is_Red(board[tar.y][tar.x]))
+		else if (tar.x == pos.x - 1 && tar.y == pos.y && !is_Red(board[tar.y][tar.x]))
 			return true;
-		else if (tar.x == cur.x && tar.y == cur.y + 1 && !is_Red(board[tar.y][tar.x]))
+		else if (tar.x == pos.x && tar.y == pos.y + 1 && !is_Red(board[tar.y][tar.x]))
 			return true;
 		else
 			return false;
@@ -366,93 +384,93 @@ bool R_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	//兵没有过河，只有一种走法
 	else
 	{
-		if (tar.x == cur.x && tar.y == cur.y + 1 && !is_Red(board[tar.y][tar.x]))
+		if (tar.x == pos.x && tar.y == pos.y + 1 && !is_Red(board[tar.y][tar.x]))
 			return true;
 		else
 			return false;
 	}
 }
 
-void R_Pawn::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//同理，兵过河的情况，有3种走法，分别判断
-	if (cur.y > 4)
+	if (pos.y > 4)
 	{
-		temp.x = cur.x + 1;
-		temp.y = cur.y;
+		temp.x = pos.x + 1;
+		temp.y = pos.y;
 		if (!is_Red(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
-		temp.x = cur.x - 1;
+			tar_pos.push_back(MOVEMENT(pos,temp));
+		temp.x = pos.x - 1;
 		if (!is_Red(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
-		temp.x = cur.x;
-		temp.y = cur.y + 1;
+			tar_pos.push_back(MOVEMENT(pos,temp));
+		temp.x = pos.x;
+		temp.y = pos.y + 1;
 		if (!is_Red(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 	else
 	{
-		temp.x = cur.x;
-		temp.y = cur.y + 1;
+		temp.x = pos.x;
+		temp.y = pos.y + 1;
 		if (!is_Red(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 }
 
-bool B_Pawn::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Pawn::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (twoKingMeet(cur, tar, board))
+	if (twoKingMeet(pos, tar, board))
 		return false;
-	if (cur.y < 5)
+	if (pos.y < 5)
 	{
-		if (tar.x == cur.x + 1 && tar.y == cur.y && !is_Black(board[tar.y][tar.x]))
+		if (tar.x == pos.x + 1 && tar.y == pos.y && !is_Black(board[tar.y][tar.x]))
 			return true;
-		else if (tar.x == cur.x - 1 && tar.y == cur.y && !is_Black(board[tar.y][tar.x]))
+		else if (tar.x == pos.x - 1 && tar.y == pos.y && !is_Black(board[tar.y][tar.x]))
 			return true;
-		else if (tar.x == cur.x && tar.y == cur.y - 1 && !is_Black(board[tar.y][tar.x]))
+		else if (tar.x == pos.x && tar.y == pos.y - 1 && !is_Black(board[tar.y][tar.x]))
 			return true;
 		else
 			return false;
 	}
 	else
 	{
-		if (tar.x == cur.x && tar.y == cur.y - 1 && !is_Black(board[tar.y][tar.x]))
+		if (tar.x == pos.x && tar.y == pos.y - 1 && !is_Black(board[tar.y][tar.x]))
 			return true;
 		else
 			return false;
 	}
 }
 
-void B_Pawn::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Pawn::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
-	if (cur.y < 5)
+	if (pos.y < 5)
 	{
-		temp.x = cur.x + 1;
-		temp.y = cur.y;
+		temp.x = pos.x + 1;
+		temp.y = pos.y;
 		if (!is_Black(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
-		temp.x = cur.x - 1;
+			tar_pos.push_back(MOVEMENT(pos,temp));
+		temp.x = pos.x - 1;
 		if (!is_Black(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
-		temp.x = cur.x;
-		temp.y = cur.y - 1;
+			tar_pos.push_back(MOVEMENT(pos,temp));
+		temp.x = pos.x;
+		temp.y = pos.y - 1;
 		if (!is_Black(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 	else
 	{
-		temp.x = cur.x;
-		temp.y = cur.y - 1;
+		temp.x = pos.x;
+		temp.y = pos.y - 1;
 		if (!is_Black(board[temp.y][temp.x]) && !is_outBoard(temp.y, temp.x))
-			tar_pos.push_back(temp);
+			tar_pos.push_back(MOVEMENT(pos,temp));
 	}
 }
 
-bool R_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Horse::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (twoKingMeet(cur, tar, board))
+	if (twoKingMeet(pos, tar, board))
 		return false;
 	//辅助数组，便于在循环中找到马眼的位置
 	int offset_eye_x[4] = {0, 0, 1, -1};
@@ -460,12 +478,12 @@ bool R_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	//辅助数组，便于在循环中找到马可以跳的位置
 	int offset_x[8] = {1, -1, 1, -1, 2, 2, -2, -2};
 	int offset_y[8] = {2, 2, -2, -2, 1, -1, 1, -1};
-	for (int i = 0, i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		if (tar.x == cur.x + offset_x[i] && tar.y == cur.y + offset_y[i] && !is_outBoard(tar.y, tar.x) && !is_Red(board[tar.y][tar.x]))
+		if (tar.x == pos.x + offset_x[i] && tar.y == pos.y + offset_y[i] && !is_outBoard(tar.y, tar.x) && !is_Red(board[tar.y][tar.x]))
 		{
-			int eye_x = cur.x + offset_eye_x[i / 2];
-			int eye_y = cur.y + offset_eye_y[i / 2];
+			int eye_x = pos.x + offset_eye_x[i / 2];
+			int eye_y = pos.y + offset_eye_y[i / 2];
 			if (!is_outBoard(eye_y, eye_x) && board[eye_y][eye_x] == NoChess)
 				return true;
 		}
@@ -473,7 +491,7 @@ bool R_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void R_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Horse::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//辅助数组，便于在循环中找到马眼的位置
@@ -482,28 +500,28 @@ void R_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 	//辅助数组，便于在循环中找到马可以跳的位置
 	int offset_x[8] = {1, -1, 1, -1, 2, 2, -2, -2};
 	int offset_y[8] = {2, 2, -2, -2, 1, -1, 1, -1};
-	for (int i = 0, i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		//判断马眼是否被堵住
-		int eye_x = cur.x + offset_eye_x[i];
-		int eye_y = cur.y + offset_eye_y[i];
+		int eye_x = pos.x + offset_eye_x[i];
+		int eye_y = pos.y + offset_eye_y[i];
 		if (!is_outBoard(eye_y, eye_x) && board[eye_y][eye_x] == NoChess)
 		{
 			//若没有被堵住，则判断对应的两个位置是否可以走
 			for (int k = 0; k < 2; k++)
 			{
-				temp.x = cur.x + offset_x[i * 2 + k];
-				temp.y = cur.y + offset_y[i * 2 + k];
+				temp.x = pos.x + offset_x[i * 2 + k];
+				temp.y = pos.y + offset_y[i * 2 + k];
 				if (!is_outBoard(temp.y, temp.x) && !is_Red(board[temp.y][temp.x]))
-					tar_pos.push_back(temp);
+					tar_pos.push_back(MOVEMENT(pos,temp));
 			}
 		}
 	}
 }
 
-bool B_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Horse::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (twoKingMeet(cur, tar, board))
+	if (twoKingMeet(pos, tar, board))
 		return false;
 	//辅助数组，便于在循环中找到马眼的位置
 	int offset_eye_x[4] = {0, 0, 1, -1};
@@ -511,12 +529,12 @@ bool B_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	//辅助数组，便于在循环中找到马可以跳的位置
 	int offset_x[8] = {1, -1, 1, -1, 2, 2, -2, -2};
 	int offset_y[8] = {2, 2, -2, -2, 1, -1, 1, -1};
-	for (int i = 0, i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		if (tar.x == cur.x + offset_x[i] && tar.y == cur.y + offset_y[i] && !is_outBoard(tar.y, tar.x) && !is_Black(board[tar.y][tar.x]))
+		if (tar.x == pos.x + offset_x[i] && tar.y == pos.y + offset_y[i] && !is_outBoard(tar.y, tar.x) && !is_Black(board[tar.y][tar.x]))
 		{
-			int eye_x = cur.x + offset_eye_x[i / 2];
-			int eye_y = cur.y + offset_eye_y[i / 2];
+			int eye_x = pos.x + offset_eye_x[i / 2];
+			int eye_y = pos.y + offset_eye_y[i / 2];
 			if (!is_outBoard(eye_y, eye_x) && board[eye_y][eye_x] == NoChess)
 				return true;
 		}
@@ -524,7 +542,7 @@ bool B_Horse::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	return false;
 }
 
-void B_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Horse::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	CHESSPOS temp;
 	//辅助数组，便于在循环中找到马眼的位置
@@ -533,67 +551,67 @@ void B_Horse::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int boa
 	//辅助数组，便于在循环中找到马可以跳的位置
 	int offset_x[8] = {1, -1, 1, -1, 2, 2, -2, -2};
 	int offset_y[8] = {2, 2, -2, -2, 1, -1, 1, -1};
-	for (int i = 0, i < 4; i++)
+	for (int i = 0; i < 4 ; i++)
 	{
 		//判断马眼是否被堵住
-		int eye_x = cur.x + offset_eye_x[i];
-		int eye_y = cur.y + offset_eye_y[i];
+		int eye_x = pos.x + offset_eye_x[i];
+		int eye_y = pos.y + offset_eye_y[i];
 		if (!is_outBoard(eye_y, eye_x) && board[eye_y][eye_x] == NoChess)
 		{
 			//若没有被堵住，则判断对应的两个位置是否可以走
 			for (int k = 0; k < 2; k++)
 			{
-				temp.x = cur.x + offset_x[i * 2 + k];
-				temp.y = cur.y + offset_y[i * 2 + k];
+				temp.x = pos.x + offset_x[i * 2 + k];
+				temp.y = pos.y + offset_y[i * 2 + k];
 				if (!is_outBoard(temp.y, temp.x) && !is_Black(board[temp.y][temp.x]))
-					tar_pos.push_back(temp);
+					tar_pos.push_back(MOVEMENT(pos,temp));
 			}
 		}
 	}
 }
 
-bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Cannon::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (is_outBoard(tar.y, tar.x) || twoKingMeet(cur, tar, board))
+	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
 	//先判断是否在一条直线上
-	if (tar.x != cur.x && tar.y != cur.y)
+	if (tar.x != pos.x && tar.y != pos.y)
 		return false;
 	//根据目的地的棋子类型分类
 	//目的地无棋子，进行移动
 	if (board[tar.y][tar.x] == NoChess)
 	{
 		//确定路线上没有棋子
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y + 1; i < tar.y; i++)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y - 1; i > tar.y; i--)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x + 1; i < tar.x; i++)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x - 1; i > tar.x; i--)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
@@ -604,17 +622,17 @@ bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	{
 		//确定路线上只有一颗棋子
 		bool flag = false; //标志是否存在跳板
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
+				for (int i = pos.y + 1; i < tar.y; i++)
 				{
 					//发现跳板
-					if (board[i][cur.x] != NoChess && flag == false)
+					if (board[i][pos.x] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[i][cur.x] != NoChess)
+					else if (board[i][pos.x] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -625,13 +643,13 @@ bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
+				for (int i = pos.y - 1; i > tar.y; i--)
 				{
 					//发现跳板
-					if (board[i][cur.x] != NoChess && flag == false)
+					if (board[i][pos.x] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[i][cur.x] != NoChess)
+					else if (board[i][pos.x] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -643,15 +661,15 @@ bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
+				for (int i = pos.x + 1; i < tar.x; i++)
 				{
 					//发现跳板
-					if (board[cur.y][i] != NoChess && flag == false)
+					if (board[pos.y][i] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[cur.y][i] != NoChess)
+					else if (board[pos.y][i] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -662,13 +680,13 @@ bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
+				for (int i = pos.x - 1; i > tar.x; i--)
 				{
 					//发现跳板
-					if (board[cur.y][i] != NoChess && flag == false)
+					if (board[pos.y][i] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[cur.y][i] != NoChess)
+					else if (board[pos.y][i] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -684,87 +702,87 @@ bool R_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void R_Cannon::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
-	for (int i = cur.x + 1; i < 9; i++)
+	for (int i = pos.x + 1; i < 9; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i + 1; j < 9; j++)
 			{
 				//为黑，可以吃掉
-				if (is_Black(board[cur.y][j]))
-					tar_pos.push_back(CHESSPOS(j, cur.y));
+				if (is_Black(board[pos.y][j]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
 				//为红，不可以退出循环
-				else if (is_Red(board[cur.y][j]))
+				else if (is_Red(board[pos.y][j]))
 					break;
 			}
 			break;
 		}
 	}
 	//向左寻找
-	for (int i = cur.x - 1; i > 0; i--)
+	for (int i = pos.x - 1; i > 0; i--)
 	{
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i - 1; j > 0; j--)
 			{
 				//为黑，可以吃掉
-				if (is_Black(board[cur.y][j]))
-					tar_pos.push_back(CHESSPOS(j, cur.y));
+				if (is_Black(board[pos.y][j]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
 				//为红，不可以退出循环
-				else if (is_Red(board[cur.y][j]))
+				else if (is_Red(board[pos.y][j]))
 					break;
 			}
 			break;
 		}
 	}
 	//向下寻找
-	for (int i = cur.y + 1; i < 10; i++)
+	for (int i = pos.y + 1; i < 10; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i + 1; j < 10; j++)
 			{
 				//为黑，可以吃掉
-				if (is_Black(board[j][cur.x]))
-					tar_pos.push_back(CHESSPOS(cur.x, j));
+				if (is_Black(board[j][pos.x]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
 				//为红，不可以退出循环
-				else if (is_Red(board[j][cur.x]))
+				else if (is_Red(board[j][pos.x]))
 					break;
 			}
 			break;
 		}
 	}
 	//向上寻找
-	for (int i = cur.y - 1; i > 0; i--)
+	for (int i = pos.y - 1; i > 0; i--)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i - 1; j > 0; j--)
 			{
 				//为黑，可以吃掉
-				if (is_Black(board[j][cur.x]))
-					tar_pos.push_back(CHESSPOS(cur.x, j));
+				if (is_Black(board[j][pos.x]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
 				//为红，不可以退出循环
-				else if (is_Red(board[j][cur.x]))
+				else if (is_Red(board[j][pos.x]))
 					break;
 			}
 			break;
@@ -772,48 +790,48 @@ void R_Cannon::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int bo
 	}
 }
 
-bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Cannon::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (is_outBoard(tar.y, tar.x) || twoKingMeet(cur, tar, board))
+	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
 	//先判断是否在一条直线上
-	if (tar.x != cur.x && tar.y != cur.y)
+	if (tar.x != pos.x && tar.y != pos.y)
 		return false;
 	//根据目的地的棋子类型分类
 	//目的地无棋子，进行移动
 	if (board[tar.y][tar.x] == NoChess)
 	{
 		//确定路线上没有棋子
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y + 1; i < tar.y; i++)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y - 1; i > tar.y; i--)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x + 1; i < tar.x; i++)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x - 1; i > tar.x; i--)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
@@ -824,17 +842,17 @@ bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 	{
 		//确定路线上只有一颗棋子
 		bool flag = false; //标志是否存在跳板
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
+				for (int i = pos.y + 1; i < tar.y; i++)
 				{
 					//发现跳板
-					if (board[i][cur.x] != NoChess && flag == false)
+					if (board[i][pos.x] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[i][cur.x] != NoChess)
+					else if (board[i][pos.x] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -845,13 +863,13 @@ bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
+				for (int i = pos.y - 1; i > tar.y; i--)
 				{
 					//发现跳板
-					if (board[i][cur.x] != NoChess && flag == false)
+					if (board[i][pos.x] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[i][cur.x] != NoChess)
+					else if (board[i][pos.x] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -863,15 +881,15 @@ bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
+				for (int i = pos.x + 1; i < tar.x; i++)
 				{
 					//发现跳板
-					if (board[cur.y][i] != NoChess && flag == false)
+					if (board[pos.y][i] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[cur.y][i] != NoChess)
+					else if (board[pos.y][i] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -882,13 +900,13 @@ bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
+				for (int i = pos.x - 1; i > tar.x; i--)
 				{
 					//发现跳板
-					if (board[cur.y][i] != NoChess && flag == false)
+					if (board[pos.y][i] != NoChess && flag == false)
 						flag = true;
 					//多于一颗棋子
-					else if (board[cur.y][i] != NoChess)
+					else if (board[pos.y][i] != NoChess)
 						return false;
 				}
 				//判断是否存在跳板
@@ -904,87 +922,87 @@ bool B_Cannon::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void B_Cannon::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
-	for (int i = cur.x + 1; i < 9; i++)
+	for (int i = pos.x + 1; i < 9; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i + 1; j < 9; j++)
 			{
 				//为红，可以吃掉
-				if (is_Red(board[cur.y][j]))
-					tar_pos.push_back(CHESSPOS(j, cur.y));
+				if (is_Red(board[pos.y][j]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
 				//为黑，不可以退出循环
-				else if (is_Black(board[cur.y][j]))
+				else if (is_Black(board[pos.y][j]))
 					break;
 			}
 			break;
 		}
 	}
 	//向左寻找
-	for (int i = cur.x -1; i > 0; i--)
+	for (int i = pos.x -1; i > 0; i--)
 	{
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i - 1; j > 0; j--)
 			{
 				//为红，可以吃掉
-				if (is_Red(board[cur.y][j]))
-					tar_pos.push_back(CHESSPOS(j, cur.y));
+				if (is_Red(board[pos.y][j]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
 				//为黑，不可以退出循环
-				else if (is_Black(board[cur.y][j]))
+				else if (is_Black(board[pos.y][j]))
 					break;
 			}
 			break;
 		}
 	}
 	//向下寻找
-	for (int i = cur.y + 1; i < 10; i++)
+	for (int i = pos.y + 1; i < 10; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i + 1; j < 10; j++)
 			{
 				//为红，可以吃掉
-				if (is_Red(board[j][cur.x]))
-					tar_pos.push_back(CHESSPOS(cur.x, j));
+				if (is_Red(board[j][pos.x]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
 				//为黑，不可以退出循环
-				else if (is_Black(board[j][cur.x]))
+				else if (is_Black(board[j][pos.x]))
 					break;
 			}
 			break;
 		}
 	}
 	//向上寻找
-	for (int i = cur.y - 1; i > 0; i--)
+	for (int i = pos.y - 1; i > 0; i--)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到跳板后，寻找跳板之后的第一颗棋子
 			for (int j = i - 1; j > 0; j--)
 			{
 				//为红，可以吃掉
-				if (is_Red(board[j][cur.x]))
-					tar_pos.push_back(CHESSPOS(cur.x, j));
+				if (is_Red(board[j][pos.x]))
+					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
 				//为黑，不可以退出循环
-				else if (is_Black(board[j][cur.x]))
+				else if (is_Black(board[j][pos.x]))
 					break;
 			}
 			break;
@@ -992,48 +1010,48 @@ void B_Cannon::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int bo
 	}
 }
 
-bool R_Car::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool R_Car::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (is_outBoard(tar.y, tar.x) || twoKingMeet(cur, tar, board))
+	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
 	//先判断是否在一条直线上
-	if (tar.x != cur.x && tar.y != cur.y)
+	if (tar.x != pos.x && tar.y != pos.y)
 		return false;
 	//根据目的地的棋子类型分类
 	//目的地无棋子或者为黑棋，进行移动或吃子
 	if (!is_Red(board[tar.y][tar.x]))
 	{
 		//确定路线上没有棋子
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y + 1; i < tar.y; i++)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y - 1; i > tar.y; i--)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x + 1; i < tar.x; i++)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x - 1; i > tar.x; i--)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
@@ -1044,112 +1062,112 @@ bool R_Car::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void R_Car::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void R_Car::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
-	for (int i = cur.x + 1; i < 9; i++)
+	for (int i = pos.x + 1; i < 9; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为黑，可以吃掉
-			if (is_Black(board[cur.y][i]))
-				tar_pos.push_back(CHESSPOS(i, cur.y));
+			if (is_Black(board[pos.y][i]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 			break;
 		}
 	}
 	//向左寻找
-	for (int i = cur.x - 1; i > 0; i--)
+	for (int i = pos.x - 1; i > 0; i--)
 	{
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为黑，可以吃掉
-			if (is_Black(board[cur.y][i]))
-				tar_pos.push_back(CHESSPOS(i, cur.y));
+			if (is_Black(board[pos.y][i]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 			break;
 		}
 	}
 	//向下寻找
-	for (int i = cur.y + 1; i < 10; i++)
+	for (int i = pos.y + 1; i < 10; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为黑，可以吃掉
-			if (is_Black(board[i][cur.x]))
-				tar_pos.push_back(CHESSPOS(cur.x, i));
+			if (is_Black(board[i][pos.x]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 			break;
 		}
 	}
 	//向上寻找
-	for (int i = cur.y - 1; i > 0; i--)
+	for (int i = pos.y - 1; i > 0; i--)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为黑，可以吃掉
-			if (is_Black(board[i][cur.x]))
-				tar_pos.push_back(CHESSPOS(cur.x, i));
+			if (is_Black(board[i][pos.x]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 			break;
 		}
 	}
 }
 
-bool B_Car::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
+bool B_Car::moveValid(CHESSPOS &tar, char board[10][9])
 {
-	if (is_outBoard(tar.y, tar.x) || twoKingMeet(cur, tar, board))
+	if (is_outBoard(tar.y, tar.x) || twoKingMeet(pos, tar, board))
 		return false;
 	//先判断是否在一条直线上
-	if (tar.x != cur.x && tar.y != cur.y)
+	if (tar.x != pos.x && tar.y != pos.y)
 		return false;
 	//根据目的地的棋子类型分类
 	//目的地无棋子或者为红棋，进行移动或吃子
 	if (!is_Black(board[tar.y][tar.x]))
 	{
 		//确定路线上没有棋子
-		if (tar.x == cur.x)
+		if (tar.x == pos.x)
 		{
-			if (tar.y > cur.y)
+			if (tar.y > pos.y)
 			{
-				for (int i = cur.y + 1; i < tar.y; i++)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y + 1; i < tar.y; i++)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.y - 1; i > tar.y; i--)
-					if (board[i][cur.x] != NoChess)
+				for (int i = pos.y - 1; i > tar.y; i--)
+					if (board[i][pos.x] != NoChess)
 						return false;
 				return true;
 			}
 		}
 		else
 		{
-			if (tar.x > cur.x)
+			if (tar.x > pos.x)
 			{
-				for (int i = cur.x + 1; i < tar.x; i++)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x + 1; i < tar.x; i++)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
 			else
 			{
-				for (int i = cur.x - 1; i > tar.x; i--)
-					if (board[cur.y][i] != NoChess)
+				for (int i = pos.x - 1; i > tar.x; i--)
+					if (board[pos.y][i] != NoChess)
 						return false;
 				return true;
 			}
@@ -1160,65 +1178,65 @@ bool B_Car::moveValid(CHESSPOS &cur, CHESSPOS &tar, int board[10][9])
 		return false;
 }
 
-void B_Car::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board[10][9])
+void B_Car::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 {
 	//分方向进行寻找
 	//向右寻找
-	for (int i = cur.x + 1; i < 9; i++)
+	for (int i = pos.x + 1; i < 9; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为红，可以吃掉
-			if (is_Red(board[cur.y][i]))
-				tar_pos.push_back(CHESSPOS(i, cur.y));
+			if (is_Red(board[pos.y][i]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 			break;
 		}
 	}
 	//向左寻找
-	for (int i = cur.x - 1; i > 0; i--)
+	for (int i = pos.x - 1; i > 0; i--)
 	{
-		if (board[cur.y][i] == NoChess)
-			tar_pos.push_back(CHESSPOS(i, cur.y));
+		if (board[pos.y][i] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为红，可以吃掉
-			if (is_Red(board[cur.y][i]))
-				tar_pos.push_back(CHESSPOS(i, cur.y));
+			if (is_Red(board[pos.y][i]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(i, pos.y)));
 			break;
 		}
 	}
 	//向下寻找
-	for (int i = cur.y + 1; i < 10; i++)
+	for (int i = pos.y + 1; i < 10; i++)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为红，可以吃掉
-			if (is_Red(board[i][cur.x]))
-				tar_pos.push_back(CHESSPOS(cur.x, i));
+			if (is_Red(board[i][pos.x]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 			break;
 		}
 	}
 	//向上寻找
-	for (int i = cur.y - 1; i > 0; i--)
+	for (int i = pos.y - 1; i > 0; i--)
 	{
 		//首先加入可以移动的所有位置
-		if (board[i][cur.x] == NoChess)
-			tar_pos.push_back(CHESSPOS(cur.x, i));
+		if (board[i][pos.x] == NoChess)
+			tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 		else
 		{
 			//碰到第一颗棋子后，查看对应的属性
 			//为红，可以吃掉
-			if (is_Red(board[i][cur.x]))
-				tar_pos.push_back(CHESSPOS(cur.x, i));
+			if (is_Red(board[i][pos.x]))
+				tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, i)));
 			break;
 		}
 	}
@@ -1226,6 +1244,6 @@ void B_Car::generateMovement(CHESSPOS &cur, vector<CHESSPOS> &tar_pos, int board
 
 /*
 
-ToDo:一个需要注意的地方，有些棋子tar可以和cur相同，有些不可以
+ToDo:一个需要注意的地方，有些棋子tar可以和pos相同，有些不可以
 
 */
