@@ -78,12 +78,12 @@ Game::Game(int mode)
 {
     if(mode == MvsM)
     {
-        Red = new GammaGo(500, RED);
-        Black = new GammaGo(500, BLACK);
+        Red = new GammaGo(100, RED);
+        Black = new GammaGo(100, BLACK);
     }
     else if(mode == HvsM)
     {
-        Red = new GammaGo(500,RED);
+        Red = new GammaGo(100,RED);
         Black = new Human(BLACK);
     }
     else

@@ -2,11 +2,12 @@
 #include<cmath>
 #include<ctime>
 #include<random>
+#include<cassert>
 
 
 static default_random_engine e;
-static uniform_int_distribution<unsigned> red_no(RedBegin,RedEnd);
-static uniform_int_distribution<unsigned> black_no(BlackBegin,BlackEnd);
+static uniform_int_distribution<unsigned> red_no(RedBegin, RedEnd);
+static uniform_int_distribution<unsigned> black_no(BlackBegin, BlackEnd);
 
 void GammaGo::play(Board &board, MOVEMENT &mvmt)
 {
@@ -59,7 +60,7 @@ void GammaGo::play(Board &board, MOVEMENT &mvmt)
     int idx = 0;
     for(int i = 0; i < size; i++)
     {
-        double rate = (hit_cnt[i] == 0) ? 0.0 : win_cnt[i] / hit_cnt[i];
+        double rate = ((hit_cnt[i] == 0) ? 0.0 : ((double)win_cnt[i] / (double)hit_cnt[i]));
         if(rate > win_rate)
         {
             win_rate = rate;
@@ -76,35 +77,29 @@ bool GammaGo::simulateRun()//模拟下棋
     {
         int winner;
         MOVEMENT mvmt;
-        while(!gameOver(winner))
+        while(!gameOver(winner, RED))
         {
-            //随机找到一个可以移动的棋子
-            unsigned B_chess_id = black_no(e);
-            while(!chess[B_chess_id]->exist)
-                B_chess_id = black_no(e);
-
             //随机生成一种走法
             vector<MOVEMENT> B_mvmt;
-            chess[B_chess_id]->generateMovement(B_mvmt,s_board);
-			if (B_mvmt.size() == 0)
-				return true;
+			for(int i = BlackBegin; i <= BlackEnd; i++)
+				if(chess[i]->exist)
+					chess[i]->generateMovement(B_mvmt, s_board);
+			assert(B_mvmt.size() != 0);
+
             uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
             mvmt = B_mvmt[B_mvmt_no(e)];
             makeMove(mvmt);
 
-            if(gameOver(winner))
+            if(gameOver(winner, BLACK))
                 break;
 
-            //随机找到一个可以移动的棋子
-            unsigned R_chess_id = red_no(e);
-            while(!chess[R_chess_id]->exist)
-                R_chess_id = black_no(e);
-
             //随机生成一种走法
-            vector<MOVEMENT> R_mvmt;
-            chess[R_chess_id]->generateMovement(R_mvmt,s_board);
-			if (R_mvmt.size() == 0)
-				return false;
+			vector<MOVEMENT> R_mvmt;
+			for (int i = RedBegin; i <= RedEnd; i++)
+				if (chess[i]->exist)
+					chess[i]->generateMovement(R_mvmt, s_board);
+			assert(R_mvmt.size() != 0);
+
             uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
             mvmt = R_mvmt[R_mvmt_no(e)];
             makeMove(mvmt);
@@ -119,38 +114,32 @@ bool GammaGo::simulateRun()//模拟下棋
     {
         int winner;
         MOVEMENT mvmt;
-        while(!gameOver(winner))
+        while(!gameOver(winner, BLACK))
         {
-            //随机找到一个可以移动的棋子
-            unsigned R_chess_id = red_no(e);
-            while(!chess[R_chess_id]->exist)
-                R_chess_id = black_no(e);
+			//随机生成一种走法
+			vector<MOVEMENT> R_mvmt;
+			for (int i = RedBegin; i <= RedEnd; i++)
+				if (chess[i]->exist)
+					chess[i]->generateMovement(R_mvmt, s_board);
+			assert(R_mvmt.size() != 0);
 
-            //随机生成一种走法
-            vector<MOVEMENT> R_mvmt;
-            chess[R_chess_id]->generateMovement(R_mvmt,s_board);
-			if (R_mvmt.size() == 0)
-				return true;
-            uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
-            mvmt = R_mvmt[R_mvmt_no(e)];
-            makeMove(mvmt);
+			uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
+			mvmt = R_mvmt[R_mvmt_no(e)];
+			makeMove(mvmt);
 
-            if(gameOver(winner))
+            if(gameOver(winner, RED))
                 break;
 
-            //随机找到一个可以移动的棋子
-            unsigned B_chess_id = black_no(e);
-            while(!chess[B_chess_id]->exist)
-                B_chess_id = black_no(e);
+			//随机生成一种走法
+			vector<MOVEMENT> B_mvmt;
+			for (int i = BlackBegin; i <= BlackEnd; i++)
+				if (chess[i]->exist)
+					chess[i]->generateMovement(B_mvmt, s_board);
+			assert(B_mvmt.size() != 0);
 
-            //随机生成一种走法
-            vector<MOVEMENT> B_mvmt;
-            chess[B_chess_id]->generateMovement(B_mvmt,s_board);
-			if (B_mvmt.size() == 0)
-				return false;
-            uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
-            mvmt = B_mvmt[B_mvmt_no(e)];
-            makeMove(mvmt);
+			uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
+			mvmt = B_mvmt[B_mvmt_no(e)];
+			makeMove(mvmt);
         }
 
         if(winner == BLACK)
@@ -172,40 +161,42 @@ void GammaGo::makeMove(MOVEMENT &mvmt)//执行走子
 
     if(is_Chess(dst_chess_id))
         chess[dst_chess_id]->exist = false;
-    chess[src_chess_id]->setPos(mvmt.tar);
+    chess[src_chess_id]->pos = mvmt.tar;
     
     s_board[dst_y][dst_x] = s_board[src_y][src_x];
     s_board[src_y][src_x] = NoChess;
 }
 
-bool GammaGo::gameOver(int & winner)
+bool GammaGo::gameOver(int & winner, int side)
 {
-	bool red_win = false, black_win = true;
-	for(int i = 0; i <= 2; i++)
-		for (int j = 3; j <= 5; j++)
-			if (s_board[i][j] == R_KING)
-			{
-				black_win = false;
-				break;
-			}
-	if (black_win == true)
+	if (chess[R_KING]->exist && chess[B_KING]->exist)
 	{
-		winner = BLACK;
+		if (chess[R_KING]->pos.x == chess[B_KING]->pos.x)//判断两王相遇
+		{
+			int col = chess[R_KING]->pos.x;
+			for (int i = chess[R_KING]->pos.y + 1; i < chess[B_KING]->pos.y; i++)
+			{
+				if (s_board[i][col] != NoChess)
+					return false;
+			}
+			//两王之间没有任何棋子
+			if (side == RED)
+				winner = BLACK;
+			else
+				winner = RED;
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+	{
+		if (chess[B_KING]->exist && side == BLACK)
+			winner = BLACK;
+		else if(side == RED)
+			winner = RED;
 		return true;
 	}
-	for (int i = 7; i <= 9; i++)
-		for (int j = 3; j <= 5; j++)
-			if (s_board[i][j] == B_KING)
-			{
-				red_win = false;
-				break;
-			}
-	if (red_win == true)
-	{
-		winner = RED;
-		return true;
-	}
-	return false;
 }
 
 

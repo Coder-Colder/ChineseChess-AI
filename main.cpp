@@ -3,7 +3,7 @@
 using namespace std;
 int main()
 {
-	Game g(MvsM);
+	Game g(HvsM);
 	g.Start();
 	return 0;
 }

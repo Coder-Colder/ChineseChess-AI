@@ -28,7 +28,7 @@ private:
     bool simulateRun();//模拟下棋
     //void getChildMove();//获取下一步
     void makeMove(MOVEMENT &mvmt);//执行走子,返回目标位置棋子编号
-    bool gameOver(int & winner);
+    bool gameOver(int & winner, int side);
     void storeStatus();//保存初始棋局
     void restoreStatus();//恢复初始棋局
 };
