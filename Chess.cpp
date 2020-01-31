@@ -718,7 +718,11 @@ void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为黑，可以吃掉
 				if (is_Black(board[pos.y][j]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
+					break;
+				}
+				
 				//为红，不可以退出循环
 				else if (is_Red(board[pos.y][j]))
 					break;
@@ -738,7 +742,11 @@ void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为黑，可以吃掉
 				if (is_Black(board[pos.y][j]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
+					break;
+				}
+					
 				//为红，不可以退出循环
 				else if (is_Red(board[pos.y][j]))
 					break;
@@ -759,7 +767,11 @@ void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为黑，可以吃掉
 				if (is_Black(board[j][pos.x]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
+					break;
+				}
+					
 				//为红，不可以退出循环
 				else if (is_Red(board[j][pos.x]))
 					break;
@@ -780,7 +792,11 @@ void R_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为黑，可以吃掉
 				if (is_Black(board[j][pos.x]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
+					break;
+				}
+					
 				//为红，不可以退出循环
 				else if (is_Red(board[j][pos.x]))
 					break;
@@ -938,7 +954,10 @@ void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为红，可以吃掉
 				if (is_Red(board[pos.y][j]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
+					break;
+				}
 				//为黑，不可以退出循环
 				else if (is_Black(board[pos.y][j]))
 					break;
@@ -958,7 +977,11 @@ void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为红，可以吃掉
 				if (is_Red(board[pos.y][j]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(j, pos.y)));
+					break;
+				}
+					
 				//为黑，不可以退出循环
 				else if (is_Black(board[pos.y][j]))
 					break;
@@ -979,7 +1002,11 @@ void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为红，可以吃掉
 				if (is_Red(board[j][pos.x]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
+					break;
+				}
+					
 				//为黑，不可以退出循环
 				else if (is_Black(board[j][pos.x]))
 					break;
@@ -1000,7 +1027,10 @@ void B_Cannon::generateMovement(vector<MOVEMENT> &tar_pos, char board[10][9])
 			{
 				//为红，可以吃掉
 				if (is_Red(board[j][pos.x]))
+				{
 					tar_pos.push_back(MOVEMENT(pos,CHESSPOS(pos.x, j)));
+					break;
+				}
 				//为黑，不可以退出循环
 				else if (is_Black(board[j][pos.x]))
 					break;
