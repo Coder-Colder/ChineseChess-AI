@@ -83,7 +83,7 @@ Game::Game(int mode)
     }
     else if(mode == HvsM)
     {
-        Red = new GammaGo(100,RED);
+        Red = new GammaGo_v2(100,RED);
         Black = new Human(BLACK);
     }
     else

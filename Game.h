@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "BetaGo.h"
 #include "GammaGo.h"
+#include "GammaGo_v2.h"
 #include "Human.h"
 #include "Board.h"
 

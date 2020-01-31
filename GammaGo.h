@@ -6,9 +6,6 @@
 #include<vector>
 using namespace std;
 
-#define MaxMovement 60
-
-
 
 class GammaGo:public Player
 {
