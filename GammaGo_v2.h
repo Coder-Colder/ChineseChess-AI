@@ -6,7 +6,7 @@
 #include <vector>
 
 
-#define CONFINDENCE 1.96
+#define CONFINDENCE 1.5
 
 struct UCTNode
 {

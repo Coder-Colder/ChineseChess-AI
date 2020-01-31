@@ -159,7 +159,7 @@ void UCTNode::adjust()//最大堆的调整算法
 			else
 				break;
 		}
-		childs[j] = temp;
+		childs[i] = temp;
 	}
 }
 
@@ -190,7 +190,7 @@ void UCTNode::backup(int res)
 	{
 		cur->adjust();
 		cur->hit_cnt++;
-		cur->win_cnt++;
+		cur->win_cnt += res;
 		cur = cur->parent;
 	}
 }
@@ -322,7 +322,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
 			mvmt = B_mvmt[B_mvmt_no(e)];
 			makeMove(mvmt);
-			display();
+			//display();
 
 			if (gameOver(winner, BLACK))
 				break;
@@ -337,7 +337,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
 			mvmt = R_mvmt[R_mvmt_no(e)];
 			makeMove(mvmt);
-			display();
+			//display();
 
 		}
 		if (winner == side)
@@ -361,7 +361,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			uniform_int_distribution<unsigned> R_mvmt_no(0, R_mvmt.size() - 1);
 			mvmt = R_mvmt[R_mvmt_no(e)];
 			makeMove(mvmt);
-			display();
+			//display();
 
 			if (gameOver(winner, RED))
 				break;
@@ -376,7 +376,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			uniform_int_distribution<unsigned> B_mvmt_no(0, B_mvmt.size() - 1);
 			mvmt = B_mvmt[B_mvmt_no(e)];
 			makeMove(mvmt);
-			display();
+			//display();
 		}
 
 		if (winner == side)
