@@ -5,6 +5,7 @@
 #include <vector>
 using namespace std;
 
+
 class Chess //记录棋子在棋盘上的坐标；根据形势给出所有合法走子；检验所给走子方法的合法性
 {
 public:
@@ -19,6 +20,9 @@ public:
 	virtual bool moveValid(CHESSPOS &tar, char board[10][9]) = 0;					   //确定目标移动位置合法性:针对棋子特定的移动规则
 	virtual void generateMovement(vector<MOVEMENT> &moveList, char board[10][9]) = 0; //生成所有的合法的走子位置
 };
+
+
+extern Chess * chess[32];//定义在game.cpp中的全局变量
 
 class R_King : public Chess //红帅
 {

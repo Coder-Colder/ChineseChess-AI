@@ -6,7 +6,9 @@
 #include <vector>
 
 
-#define CONFINDENCE 1.5
+#define CONFINDENCE 100
+
+#define MaxTurn 0.8
 
 struct UCTNode
 {
@@ -32,9 +34,11 @@ public:
 	}
 	bool operator >(const UCTNode & node);//用于建立子节点优先队列时比较结点置信度
 	void adjust();//将子节点指针数组按照置信度维护成最大堆
-	void makeMove(char board[10][9]);//根据move成员执行该结点对应的走子
 	void backup(int res);//回溯至根结点
-	void expand(int side, char board[10][9]);//根据当前结点的棋局拓展子节点指针数组（当childs_vec为空时调用）                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+	void expand(int side, char board[10][9]);//根据当前结点的棋局拓展子节点指针数组（当childs_vec为空时调用）       
+	int makeMove(MOVEMENT &mvmt, char board[10][9]);//模拟落子以获取子节点状态，返回落子点chess_id
+	void unmakeMove(MOVEMENT & mvmt, int chess_id, char board[10][9]);//撤回落子
+	bool endCheck(char board[10][9]);//判断子节点中的制胜棋局
 };
 
 class UCTree
@@ -65,10 +69,9 @@ public:
 private:
 	int simulateRun(int whosTurn);//随机模拟下棋
 	void makeMove(MOVEMENT &mvmt);//执行走子,返回目标位置棋子编号
-	bool gameOver(int & winner, int side);
+	bool gameOver(int & winner);
 	void storeStatus();//保存初始棋局
 	void restoreStatus();//恢复初始棋局
-	void display();
 };
 
 #endif

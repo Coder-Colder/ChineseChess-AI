@@ -17,7 +17,10 @@ struct MOVEMENT //走子描述
 	CHESSPOS src;
 	CHESSPOS tar;
 public:
-	MOVEMENT(CHESSPOS src = CHESSPOS(), CHESSPOS tar = CHESSPOS()):src(src), tar(tar) { }
+	MOVEMENT(CHESSPOS & src, CHESSPOS & tar):src(src), tar(tar) { }
+	MOVEMENT(CHESSPOS & src, CHESSPOS && tar) :src(src), tar(tar) { }
+	MOVEMENT(CHESSPOS && src, CHESSPOS & tar) :src(src), tar(tar) { }
+	MOVEMENT(CHESSPOS && src = CHESSPOS(), CHESSPOS && tar = CHESSPOS()) :src(src), tar(tar) { }
 	MOVEMENT(const MOVEMENT & mvmt):src(mvmt.src), tar(mvmt.tar) { }
 	MOVEMENT & operator = (const MOVEMENT & mvmt) { this->src = mvmt.src; this->tar = mvmt.tar; return *this; }
 };
@@ -75,7 +78,7 @@ public:
 extern int flagBoard[14][13];
 
 #define is_outBoard(y, x) (flagBoard[y + 2][x + 2] == OUTBOARD)
-#define is_inBoard(y, x) (flagBoard[y + 2][x + 2] == INBOARD)
+#define is_inBoard(y, x) (flagBoard[y + 2][x + 2] >= INBOARD)
 #define is_inRedPalace(y, x) (flagBoard[y + 2][x + 2] == RSQUARE)
 #define is_inBlackPalace(y, x) (flagBoard[y + 2][x + 2] == BSQUARE)
 
