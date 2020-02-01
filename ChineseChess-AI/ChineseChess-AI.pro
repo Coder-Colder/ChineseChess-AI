@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwidget.cpp
+        mainwidget.cpp \
+    choosewidget.cpp \
+    gamewidget.cpp \
+    chess.cpp
 
 HEADERS += \
-        mainwidget.h
+        mainwidget.h \
+    choosewidget.h \
+    gamewidget.h \
+    chess.h
 
 FORMS += \
         mainwidget.ui
@@ -38,3 +44,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc
