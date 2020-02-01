@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-static unsigned node_cnt = 0;//记录搜素过的节点数
+static unsigned node_cnt = 0;//??????????????
 static default_random_engine e;
 static uniform_int_distribution<unsigned> red_no(RedBegin, RedEnd);
 static uniform_int_distribution<unsigned> black_no(BlackBegin, BlackEnd);
@@ -25,51 +25,51 @@ void GammaGo_v2::display()
 		{
 			switch (m_board[i][j])
 			{
-			case R_KING:cout << "帥";
+			case R_KING:cout << "??";
 				break;
-			case B_KING:cout << "将";
+			case B_KING:cout << "??";
 				break;
 			case R_GUARD1:
-			case R_GUARD2:cout << "仕";
+			case R_GUARD2:cout << "??";
 				break;
 			case B_GUARD1:
-			case B_GUARD2:cout << "士";
+			case B_GUARD2:cout << "?";
 				break;
 			case R_HORSE1:
-			case R_HORSE2:cout << "馬";
+			case R_HORSE2:cout << "?R";
 				break;
 			case B_HORSE1:
-			case B_HORSE2:cout << "马";
+			case B_HORSE2:cout << "??";
 				break;
 			case R_BISHOP1:
-			case R_BISHOP2:cout << "相";
+			case R_BISHOP2:cout << "??";
 				break;
 			case B_BISHOP1:
-			case B_BISHOP2:cout << "象";
+			case B_BISHOP2:cout << "??";
 				break;
 			case R_CANNON1:
-			case R_CANNON2:cout << "砲";
+			case R_CANNON2:cout << "?h";
 				break;
 			case B_CANNON1:
-			case B_CANNON2:cout << "炮";
+			case B_CANNON2:cout << "??";
 				break;
 			case R_CAR1:
-			case R_CAR2:cout << "車";
+			case R_CAR2:cout << "?";
 				break;
 			case B_CAR1:
-			case B_CAR2:cout << "车";
+			case B_CAR2:cout << "??";
 				break;
 			case R_PAWN1:
 			case R_PAWN2:
 			case R_PAWN3:
 			case R_PAWN4:
-			case R_PAWN5:cout << "兵";
+			case R_PAWN5:cout << "??";
 				break;
 			case B_PAWN1:
 			case B_PAWN2:
 			case B_PAWN3:
 			case B_PAWN4:
-			case B_PAWN5:cout << "卒";
+			case B_PAWN5:cout << "??";
 				break;
 			case NoChess:cout << "+-";
 				break;
@@ -92,16 +92,16 @@ void GammaGo_v2::display()
 			cout << "  |      |      |      |  /   |   \\  |      |      |      |" << endl;
 			break;
 		case 4:
-			cout << "  |         楚                          汉                |" << endl;
-			cout << "  |                河                          界         |" << endl;
+			cout << "  |         ??                          ??                |" << endl;
+			cout << "  |                ??                          ??         |" << endl;
 			break;
 		case 2:
-			cout << "  |      |      |      |      |      |      |      |      |        红" << endl;
+			cout << "  |      |      |      |      |      |      |      |      |        ??" << endl;
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
 			break;
 		case 6:
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
-			cout << "  |      |      |      |      |      |      |      |      |        黑" << endl;
+			cout << "  |      |      |      |      |      |      |      |      |        ??" << endl;
 			break;
 		default:
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
@@ -117,16 +117,16 @@ bool UCTNode::operator>(const UCTNode & node)
 	double m_reliable = (double)win_cnt / (double)hit_cnt + CONFINDENCE * sqrt((double)(base0 / (double)hit_cnt));
 	double n_reliable = (double)node.win_cnt / (double)node.hit_cnt + CONFINDENCE * sqrt((double)(base0 / (double)node.hit_cnt));
 	double off = m_reliable - n_reliable;
-	//先判等
+	//???е?
 	if (fabs(off) < 0.000001)
 		return false;
 	else
 		return off > 0;
 }
 
-void UCTNode::adjust()//最大堆的调整算法
+void UCTNode::adjust()//??????????
 {
-	if (tail == childs.size() - 1)//所有子节点全部搜索完，采用siftDown策略
+	if (tail == childs.size() - 1)//?????????????????????siftDown????
 	{
 		UCTNode * temp = childs[0];
 		int i = 0, j = 2 * i + 1;
@@ -144,7 +144,7 @@ void UCTNode::adjust()//最大堆的调整算法
 		}
 		childs[i] = temp;
 	}
-	else//child[tial]是新加入搜索树的结点，未加入堆中，采用siftUp策略
+	else//child[tial]?????????????????δ??????У?????siftUp????
 	{
 		UCTNode * temp = childs[tail];
 		int i = tail, j = (i - 1)/ 2;
@@ -223,32 +223,32 @@ UCTNode * UCTree::moveToBestNode(char board[10][9], int & whosTurn)
 	while (1)
 	{
 		unsigned child_size = cur->childs.size();
-		if (child_size == 0)//该结点已搜索过但未拓展出子结点
+		if (child_size == 0)//??????????????δ?????????
 		{
 			cur->expand(move_side, board);
-			cur = cur->childs[0];//第一个子结点即为未搜索过的结点
+			cur = cur->childs[0];//??????????δ??????????
 			node_cnt++;
-			break;//结束循环
+			break;//???????
 		}
-		else if (cur->tail == child_size - 1)//cur所有子结点全部搜索过，需要选举
+		else if (cur->tail == child_size - 1)//cur?????????????????????????
 		{
-			cur->makeMove(board);//搜索路径经过该结点
-			cur = cur->childs[0];//优先队列保证该子节点可信度最高
+			cur->makeMove(board);//????·??????????
+			cur = cur->childs[0];//??????б???????????????
 			
-			//继续向下一层搜索,换边
+			//???????????????,????
 			move_side = (move_side == RED) ? BLACK : RED;
 		}
-		else//找到最佳结点（cur存在未搜索过的子结点，不需要选举）
+		else//????????cur????δ?????????????????????
 		{
 			cur->tail++;
 			node_cnt++;
 			cur = cur->childs[cur->tail];
-			break;//结束循环
+			break;//???????
 		}
 	}
-	//至此，cur为随机模拟的最佳起始源点
+	//?????cur?????????????????
 	cur->makeMove(board);
-	whosTurn = (move_side == RED) ? BLACK : RED;//返回随机模拟的先手阵营
+	whosTurn = (move_side == RED) ? BLACK : RED;//??????????????????
 	return cur;
 }
 
@@ -306,13 +306,13 @@ void GammaGo_v2::play(Board & board, MOVEMENT & mvmt)
 
 int GammaGo_v2::simulateRun(int whosTurn)
 {
-	if (whosTurn == RED)//黑方先手
+	if (whosTurn == RED)//???????
 	{
 		int winner;
 		MOVEMENT mvmt;
 		while (!gameOver(winner, RED))
 		{
-			//随机生成一种走法
+			//?????????????
 			vector<MOVEMENT> B_mvmt;
 			for (int i = BlackBegin; i <= BlackEnd; i++)
 				if (chess[i]->exist)
@@ -327,7 +327,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			if (gameOver(winner, BLACK))
 				break;
 
-			//随机生成一种走法
+			//?????????????
 			vector<MOVEMENT> R_mvmt;
 			for (int i = RedBegin; i <= RedEnd; i++)
 				if (chess[i]->exist)
@@ -351,7 +351,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 		MOVEMENT mvmt;
 		while (!gameOver(winner, BLACK))
 		{
-			//随机生成一种走法
+			//?????????????
 			vector<MOVEMENT> R_mvmt;
 			for (int i = RedBegin; i <= RedEnd; i++)
 				if (chess[i]->exist)
@@ -366,7 +366,7 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			if (gameOver(winner, RED))
 				break;
 
-			//随机生成一种走法
+			//?????????????
 			vector<MOVEMENT> B_mvmt;
 			for (int i = BlackBegin; i <= BlackEnd; i++)
 				if (chess[i]->exist)
@@ -408,7 +408,7 @@ bool GammaGo_v2::gameOver(int & winner, int side)
 {
 	if (chess[R_KING]->exist && chess[B_KING]->exist)
 	{
-		if (chess[R_KING]->pos.x == chess[B_KING]->pos.x)//判断两王相遇
+		if (chess[R_KING]->pos.x == chess[B_KING]->pos.x)//?ж?????????
 		{
 			int col = chess[R_KING]->pos.x;
 			for (int i = chess[R_KING]->pos.y + 1; i < chess[B_KING]->pos.y; i++)
@@ -416,7 +416,7 @@ bool GammaGo_v2::gameOver(int & winner, int side)
 				if (m_board[i][col] != NoChess)
 					return false;
 			}
-			//两王之间没有任何棋子
+			//???????????κ?????
 			if (side == RED)
 				winner = BLACK;
 			else

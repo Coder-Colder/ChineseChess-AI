@@ -10,14 +10,14 @@
 
 struct UCTNode
 {
-	unsigned win_cnt;//ÊÕÒæ
-	unsigned hit_cnt;//ÃüÖĞÊı
-	MOVEMENT move;//×ß×Ó·½Ê½
-	unsigned tail;//ÒÑËÑË÷¹ıµÄ×Ó½ÚµãÖ¸ÕëÊı×éÔªËØµÄÎ²Ë÷Òı
-	vector<UCTNode*> childs;//×Ó½ÚµãÖ¸ÕëÊı×é£¨ÓÃÓÚÎ¬»¤³É×î´ó¶Ñ£©
-	UCTNode * parent;//¸¸Ö¸Õë
+	unsigned win_cnt;//æ”¶ç›Š
+	unsigned hit_cnt;//å‘½ä¸­æ•°
+	MOVEMENT move;//èµ°å­æ–¹å¼
+	unsigned tail;//å·²æœç´¢è¿‡çš„å­èŠ‚ç‚¹æŒ‡é’ˆæ•°ç»„å…ƒç´ çš„å°¾ç´¢å¼•
+	vector<UCTNode*> childs;//å­èŠ‚ç‚¹æŒ‡é’ˆæ•°ç»„ï¼ˆç”¨äºç»´æŠ¤æˆæœ€å¤§å †ï¼‰
+	UCTNode * parent;//çˆ¶æŒ‡é’ˆ
 
-	//static unsigned node_cnt;//ĞÅĞÄÉÏÏŞÊ÷½áµãÊı£¨.cppÖĞlocal±äÁ¿£©
+	//static unsigned node_cnt;//ä¿¡å¿ƒä¸Šé™æ ‘ç»“ç‚¹æ•°ï¼ˆ.cppä¸­localå˜é‡ï¼‰
 
 public:
 	UCTNode(const MOVEMENT & mvmt, UCTNode * parent = nullptr)
@@ -30,32 +30,32 @@ public:
 		this->parent = parent;
 		childs.resize(0);
 	}
-	bool operator >(const UCTNode & node);//ÓÃÓÚ½¨Á¢×Ó½ÚµãÓÅÏÈ¶ÓÁĞÊ±±È½Ï½áµãÖÃĞÅ¶È
-	void adjust();//½«×Ó½ÚµãÖ¸ÕëÊı×é°´ÕÕÖÃĞÅ¶ÈÎ¬»¤³É×î´ó¶Ñ
-	void makeMove(char board[10][9]);//¸ù¾İmove³ÉÔ±Ö´ĞĞ¸Ã½áµã¶ÔÓ¦µÄ×ß×Ó
-	void backup(int res);//»ØËİÖÁ¸ù½áµã
-	void expand(int side, char board[10][9]);//¸ù¾İµ±Ç°½áµãµÄÆå¾ÖÍØÕ¹×Ó½ÚµãÖ¸ÕëÊı×é£¨µ±childs_vecÎª¿ÕÊ±µ÷ÓÃ£©                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+	bool operator >(const UCTNode & node);//ç”¨äºå»ºç«‹å­èŠ‚ç‚¹ä¼˜å…ˆé˜Ÿåˆ—æ—¶æ¯”è¾ƒç»“ç‚¹ç½®ä¿¡åº¦
+	void adjust();//å°†å­èŠ‚ç‚¹æŒ‡é’ˆæ•°ç»„æŒ‰ç…§ç½®ä¿¡åº¦ç»´æŠ¤æˆæœ€å¤§å †
+	void makeMove(char board[10][9]);//æ ¹æ®moveæˆå‘˜æ‰§è¡Œè¯¥ç»“ç‚¹å¯¹åº”çš„èµ°å­
+	void backup(int res);//å›æº¯è‡³æ ¹ç»“ç‚¹
+	void expand(int side, char board[10][9]);//æ ¹æ®å½“å‰ç»“ç‚¹çš„æ£‹å±€æ‹“å±•å­èŠ‚ç‚¹æŒ‡é’ˆæ•°ç»„ï¼ˆå½“childs_vecä¸ºç©ºæ—¶è°ƒç”¨ï¼‰                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 };
 
 class UCTree
 {
 	UCTNode * root;
-	int side;//ÆğÊ¼µãÕóÓª
+	int side;//èµ·å§‹ç‚¹é˜µè¥
 public:
 	UCTree(int side) :side(side), root(nullptr) {}
-	UCTNode* moveToBestNode(char board[10][9], int & whosTurn);//Ñ°ÕÒ×îÓÅËÑË÷Â·¾¶£¬·µ»ØÒ¶×Ó½áµã
+	UCTNode* moveToBestNode(char board[10][9], int & whosTurn);//å¯»æ‰¾æœ€ä¼˜æœç´¢è·¯å¾„ï¼Œè¿”å›å¶å­ç»“ç‚¹
 	void getBestMove(MOVEMENT &mvmt);
-	void init();//ËÑË÷Ô´µã³õÊ¼»¯
-	void reset();//Çå¿ÕËÑË÷ĞÅÏ¢
+	void init();//æœç´¢æºç‚¹åˆå§‹åŒ–
+	void reset();//æ¸…ç©ºæœç´¢ä¿¡æ¯
 	void resetFrom(UCTNode * root);
 };
 
 class GammaGo_v2 :public Player
 {
-	UCTree UCTSearchEngine;//UCTËÑË÷ÒıÇæ
-	CHESSPOS pos_status[32];//¼ÇÂ¼´«ÈëÆå×ÓµÄÎ»ÖÃ
-	bool exist_status[32];//¼ÇÂ¼´«ÈëÆå×ÓµÄ´æÔÚÓë·ñ
-	char m_board[10][9];//Ä£ÄâÆåÅÌ
+	UCTree UCTSearchEngine;//UCTæœç´¢å¼•æ“
+	CHESSPOS pos_status[32];//è®°å½•ä¼ å…¥æ£‹å­çš„ä½ç½®
+	bool exist_status[32];//è®°å½•ä¼ å…¥æ£‹å­çš„å­˜åœ¨ä¸å¦
+	char m_board[10][9];//æ¨¡æ‹Ÿæ£‹ç›˜
 	int time;
 
 public:
@@ -63,11 +63,11 @@ public:
 	virtual ~GammaGo_v2() {}
 	virtual void play(Board &board, MOVEMENT &mvmt);
 private:
-	int simulateRun(int whosTurn);//Ëæ»úÄ£ÄâÏÂÆå
-	void makeMove(MOVEMENT &mvmt);//Ö´ĞĞ×ß×Ó,·µ»ØÄ¿±êÎ»ÖÃÆå×Ó±àºÅ
+	int simulateRun(int whosTurn);//éšæœºæ¨¡æ‹Ÿä¸‹æ£‹
+	void makeMove(MOVEMENT &mvmt);//æ‰§è¡Œèµ°å­,è¿”å›ç›®æ ‡ä½ç½®æ£‹å­ç¼–å·
 	bool gameOver(int & winner, int side);
-	void storeStatus();//±£´æ³õÊ¼Æå¾Ö
-	void restoreStatus();//»Ö¸´³õÊ¼Æå¾Ö
+	void storeStatus();//ä¿å­˜åˆå§‹æ£‹å±€
+	void restoreStatus();//æ¢å¤åˆå§‹æ£‹å±€
 	void display();
 };
 
