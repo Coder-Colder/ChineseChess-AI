@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QMainWindow>
-#include <QPainter>
 #include <QPushButton>
+#include "define.h"
 #include "gamewidget.h"
 class ChooseWidget : public QWidget
 {

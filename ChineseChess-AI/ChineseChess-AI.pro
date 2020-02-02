@@ -29,13 +29,21 @@ SOURCES += \
         mainwidget.cpp \
     choosewidget.cpp \
     gamewidget.cpp \
-    chess.cpp
+    chess.cpp \
+    chessdisplay.cpp \
+    board.cpp \
+    human.cpp
 
 HEADERS += \
         mainwidget.h \
     choosewidget.h \
     gamewidget.h \
-    chess.h
+    chess.h \
+    define.h \
+    chessdisplay.h \
+    player.h \
+    human.h \
+    board.h
 
 FORMS += \
         mainwidget.ui

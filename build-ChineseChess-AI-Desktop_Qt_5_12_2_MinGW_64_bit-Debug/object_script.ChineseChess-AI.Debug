@@ -1,0 +1,13 @@
+debug/main.o
+debug/mainwidget.o
+debug/choosewidget.o
+debug/gamewidget.o
+debug/chess.o
+debug/chessdisplay.o
+debug/board.o
+debug/human.o
+debug/qrc_res.o
+debug/moc_mainwidget.o
+debug/moc_choosewidget.o
+debug/moc_gamewidget.o
+debug/moc_chessdisplay.o

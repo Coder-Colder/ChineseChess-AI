@@ -1,0 +1,13 @@
+release/main.o
+release/mainwidget.o
+release/choosewidget.o
+release/gamewidget.o
+release/chess.o
+release/chessdisplay.o
+release/board.o
+release/human.o
+release/qrc_res.o
+release/moc_mainwidget.o
+release/moc_choosewidget.o
+release/moc_gamewidget.o
+release/moc_chessdisplay.o
