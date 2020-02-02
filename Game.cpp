@@ -78,12 +78,12 @@ Game::Game(int mode)
 {
     if(mode == MvsM)
     {
-        Red = new GammaGo(100, RED);
-        Black = new GammaGo(100, BLACK);
+        Red = new GammaGo_v2(500, RED);
+        Black = new GammaGo_v2(500, BLACK);
     }
     else if(mode == HvsM)
     {
-        Red = new GammaGo_v2(500,RED);
+        Red = new GammaGo_v2(1000,RED);
         Black = new Human(BLACK);
     }
     else
@@ -98,9 +98,9 @@ Game::Game(int mode)
 int Game::Start()
 {
     MOVEMENT mvmt;
+	board.display();
     while(over_flag == GMAEON)
     {
-        board.display();
         Red->play(board,mvmt);
         board.moveNext(mvmt);
         board.display();
@@ -144,36 +144,16 @@ int Game::Start()
 
 void Game::gameOverCheck(int side)
 {
-    CHESSPOS pos_R;
-    CHESSPOS pos_B;
+    CHESSPOS pos_R = chess[R_KING]->pos;
+    CHESSPOS pos_B = chess[B_KING]->pos;
     if(side == RED)
     {
-        if(!board.getBKing(pos_B))
+        if(chess[B_KING]->exist == false)
             over_flag = RED;
-        else
-        {
-            if(pos_R.x == pos_B.x)
-            {
-                for(int i = pos_B.y; board.board[i][pos_B.x] != B_KING && i ; i--)
-                    if(board.board[i][pos_B.x] != NoChess)
-                        return;
-                over_flag = BLACK;
-            }
-        }
     }
     else 
     {
-        if(!board.getRKing(pos_R))
+        if(chess[R_KING]->exist == false)
             over_flag = BLACK;
-        else
-        {
-            if(pos_R.x == pos_B.x)
-            {
-                for(int i = pos_R.y; board.board[i][pos_R.x] != B_KING && i ; i++)
-                    if(board.board[i][pos_R.x] != NoChess)
-                        return;
-                over_flag = RED;
-            }
-        }
     }
 }

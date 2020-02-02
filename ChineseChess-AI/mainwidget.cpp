@@ -40,3 +40,8 @@ void MainWidget::paintEvent(QPaintEvent *)
     pix.load(":/res/MainSence.png");
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
 }
+
+void MainWidget::on_pushButton_10_clicked()
+{
+
+}
