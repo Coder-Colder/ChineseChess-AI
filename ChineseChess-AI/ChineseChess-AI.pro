@@ -32,7 +32,8 @@ SOURCES += \
     chess.cpp \
     chessdisplay.cpp \
     board.cpp \
-    human.cpp
+    human.cpp \
+    GammaGo_v2.cpp
 
 HEADERS += \
         mainwidget.h \
@@ -43,7 +44,8 @@ HEADERS += \
     chessdisplay.h \
     player.h \
     human.h \
-    board.h
+    board.h \
+    GammaGo_v2.h
 
 FORMS += \
         mainwidget.ui

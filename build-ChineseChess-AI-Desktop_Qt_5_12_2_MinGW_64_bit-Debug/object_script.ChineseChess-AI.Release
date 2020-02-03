@@ -6,6 +6,7 @@ release/chess.o
 release/chessdisplay.o
 release/board.o
 release/human.o
+release/GammaGo_v2.o
 release/qrc_res.o
 release/moc_mainwidget.o
 release/moc_choosewidget.o

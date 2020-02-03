@@ -41,7 +41,3 @@ void MainWidget::paintEvent(QPaintEvent *)
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
 }
 
-void MainWidget::on_pushButton_10_clicked()
-{
-
-}

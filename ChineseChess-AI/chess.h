@@ -23,6 +23,8 @@ signals:
 public slots:
 };
 
+extern Chess * chess[32];//定义在gamewidget.cpp中的全局变量
+
 class R_King : public Chess //红帅
 {
 public:

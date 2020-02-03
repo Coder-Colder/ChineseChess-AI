@@ -23,6 +23,11 @@ public:
 	MOVEMENT & operator = (const MOVEMENT & mvmt) { this->src = mvmt.src; this->tar = mvmt.tar; return *this; }
 };
 
+/*state*/
+#define WAIT 1
+#define PRESS_CHESS 2
+#define PRESS_BOARD 3
+
 /*chess id*/
 #define R_KING 0
 #define R_GUARD1 1
@@ -79,6 +84,5 @@ extern int flagBoard[14][13];
 #define is_inBoard(y, x) (flagBoard[y + 2][x + 2] == INBOARD)
 #define is_inRedPalace(y, x) (flagBoard[y + 2][x + 2] == RSQUARE)
 #define is_inBlackPalace(y, x) (flagBoard[y + 2][x + 2] == BSQUARE)
-
 
 #endif

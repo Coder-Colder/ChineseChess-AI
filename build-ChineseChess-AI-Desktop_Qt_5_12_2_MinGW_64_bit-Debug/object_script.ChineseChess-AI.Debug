@@ -6,6 +6,7 @@ debug/chess.o
 debug/chessdisplay.o
 debug/board.o
 debug/human.o
+debug/GammaGo_v2.o
 debug/qrc_res.o
 debug/moc_mainwidget.o
 debug/moc_choosewidget.o

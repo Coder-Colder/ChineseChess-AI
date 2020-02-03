@@ -67,14 +67,34 @@ Chess * chess[32] ={
     &b_car1,
     &b_car2,
 };
+
 GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
 {
-    initChessDisply(board.board);
+    initChessDisplay(board.board);
 
     //初始化窗口信息
     setWindowIcon(QIcon("://res/B_BISHOP1.png"));
     setWindowTitle("中国象棋");
     setFixedSize(650,720);
+
+    Red = new GammaGo_v2(1000,RED);
+    Black = new Human(BLACK);
+    this->mode = HvsM;
+    state = WAIT;
+
+    MOVEMENT mvmt;
+    //红先走
+    Red->play(board,mvmt);
+    board.moveNext(mvmt);
+    this->moveNextDisplay(mvmt);
+
+    for(int i = 0;i < 10;i++)
+    {
+        for(int j = 0;j < 9;j++)
+        {
+               connect(chessDisplay[i][j],&ChessDisplay::act,this,&GameWidget::humanPlay);
+        }
+    }
 }
 
 void GameWidget::paintEvent(QPaintEvent *)
@@ -86,7 +106,7 @@ void GameWidget::paintEvent(QPaintEvent *)
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
 }
 
-void GameWidget::initChessDisply(char board[10][9])
+void GameWidget::initChessDisplay(char board[10][9])
 {
     for(int i = 0;i < 10;i++)
     {
@@ -95,67 +115,67 @@ void GameWidget::initChessDisply(char board[10][9])
             switch (board[i][j])
             {
             case R_KING:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_KING1.png",":/res/R_KING2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_KING1.png",":/res/R_KING2.png",this);
                 break;
             case R_GUARD1:
             case R_GUARD2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_GUARD1.png",":/res/R_GUARD2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_GUARD1.png",":/res/R_GUARD2.png",this);
                 break;
             case R_BISHOP1:
             case R_BISHOP2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_BISHOP1.png",":/res/R_BISHOP2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_BISHOP1.png",":/res/R_BISHOP2.png",this);
                 break;
             case R_PAWN1:
             case R_PAWN2:
             case R_PAWN3:
             case R_PAWN4:
             case R_PAWN5:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_PAWN1.png",":/res/R_PAWN2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_PAWN1.png",":/res/R_PAWN2.png",this);
                 break;
             case R_HORSE1:
             case R_HORSE2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_HORSE1.png",":/res/R_HORSE2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_HORSE1.png",":/res/R_HORSE2.png",this);
                 break;
             case R_CANNON1:
             case R_CANNON2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_CANNON1.png",":/res/R_CANNON2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_CANNON1.png",":/res/R_CANNON2.png",this);
                 break;
             case R_CAR1:
             case R_CAR2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/R_CAR1.png",":/res/R_CAR2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/R_CAR1.png",":/res/R_CAR2.png",this);
                 break;
             case B_KING:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_KING1.png",":/res/B_KING2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_KING1.png",":/res/B_KING2.png",this);
                 break;
             case B_GUARD1:
             case B_GUARD2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_GUARD1.png",":/res/B_GUARD2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_GUARD1.png",":/res/B_GUARD2.png",this);
                 break;
             case B_BISHOP1:
             case B_BISHOP2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_BISHOP1.png",":/res/B_BISHOP2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_BISHOP1.png",":/res/B_BISHOP2.png",this);
                 break;
             case B_PAWN1:
             case B_PAWN2:
             case B_PAWN3:
             case B_PAWN4:
             case B_PAWN5:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_PAWN1.png",":/res/B_PAWN2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_PAWN1.png",":/res/B_PAWN2.png",this);
                 break;
             case B_HORSE1:
             case B_HORSE2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_HORSE1.png",":/res/B_HORSE2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_HORSE1.png",":/res/B_HORSE2.png",this);
                 break;
             case B_CANNON1:
             case B_CANNON2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_CANNON1.png",":/res/B_CANNON2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_CANNON1.png",":/res/B_CANNON2.png",this);
                 break;
             case B_CAR1:
             case B_CAR2:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/B_CAR1.png",":/res/B_CAR2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),true,":/res/B_CAR1.png",":/res/B_CAR2.png",this);
                 break;
             default:
-                chessDisply[j][i] = new ChessDisplay(CHESSPOS(j,i),":/res/White1.png",":/res/White2.png",this);
+                chessDisplay[i][j] = new ChessDisplay(CHESSPOS(j,i),false,":/res/White1.png",":/res/White2.png",this);
             }
         }
     }
@@ -165,4 +185,119 @@ GameWidget::~GameWidget()
 {
     delete Red;
     delete Black;
+}
+
+void GameWidget::moveNextDisplay(MOVEMENT & move)
+{
+    if(chessDisplay[move.tar.y][move.tar.x]->is_chess)
+    {
+        //交换两个指针
+        ChessDisplay * temp = chessDisplay[move.tar.y][move.tar.x];
+        chessDisplay[move.tar.y][move.tar.x] = chessDisplay[move.src.y][move.src.x];
+        chessDisplay[move.src.y][move.src.x] = temp;
+        //将src改为空白
+        chessDisplay[move.src.y][move.src.x]->is_chess = false;
+        chessDisplay[move.src.y][move.src.x]->normalImg = ":/res/White1.png";
+        chessDisplay[move.src.y][move.src.x]->pressImg = ":/res/White2.png";
+        //交换位置
+        chessDisplay[move.src.y][move.src.x]->pos = CHESSPOS(move.src.x,move.src.y);
+        chessDisplay[move.tar.y][move.tar.x]->pos = CHESSPOS(move.tar.x,move.tar.y);
+        //显示
+        chessDisplay[move.src.y][move.src.x]->displayNormalImg();
+        chessDisplay[move.tar.y][move.tar.x]->displayNormalImg();
+
+    }
+    else {
+        ChessDisplay * temp = chessDisplay[move.tar.y][move.tar.x];
+        chessDisplay[move.tar.y][move.tar.x] = chessDisplay[move.src.y][move.src.x];
+        chessDisplay[move.src.y][move.src.x] = temp;
+
+        chessDisplay[move.src.y][move.src.x]->pos = CHESSPOS(move.src.x,move.src.y);
+        chessDisplay[move.tar.y][move.tar.x]->pos = CHESSPOS(move.tar.x,move.tar.y);
+
+        chessDisplay[move.src.y][move.src.x]->displayNormalImg();
+        chessDisplay[move.tar.y][move.tar.x]->displayNormalImg();
+    }
+
+}
+
+void GameWidget::humanPlay(CHESSPOS pos)
+{
+    switch (state)
+    {
+    case WAIT :
+        if(chessDisplay[pos.y][pos.x]->is_chess)
+        {
+            chessDisplay[pos.y][pos.x]->displayPressImg();
+            state = PRESS_CHESS;
+            lastPress = pos;
+        }
+        else {
+            chessDisplay[pos.y][pos.x]->displayPressImg();
+            lastPress = pos;
+            state = PRESS_BOARD;
+        }
+        break;
+    case PRESS_CHESS:;
+        if(chess[int(board.board[lastPress.y][lastPress.x])]->moveValid(pos,board.board))
+        {
+            MOVEMENT mvmt;
+            mvmt.src = lastPress;
+            mvmt.tar = pos;
+            moveNextDisplay(mvmt);
+            state = WAIT;
+            countiuePlay(mvmt);
+        }
+        else {
+            chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
+            state = WAIT;
+        }
+        break;
+    case PRESS_BOARD:
+        if(chessDisplay[pos.y][pos.x]->is_chess)
+        {
+            chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
+            chessDisplay[pos.y][pos.x]->displayPressImg();
+            state = PRESS_CHESS;
+            lastPress = pos;
+        }
+        else {
+            chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
+            chessDisplay[pos.y][pos.x]->displayPressImg();
+            state = PRESS_BOARD;
+            lastPress = pos;
+        }
+        break;
+    default:
+        assert(0);
+
+    }
+}
+
+void GameWidget::gameOverCheck()
+{
+    if(chess[B_KING]->exist == false)
+        gameOverLose();
+    else if(chess[R_KING]->exist == false)
+        gameOverWin();
+}
+
+void GameWidget::countiuePlay(MOVEMENT & move)
+{
+    board.moveNext(move);
+    gameOverCheck();
+    Red->play(board,move);
+    board.moveNext(move);
+    moveNextDisplay(move);
+    gameOverCheck();
+}
+
+void GameWidget::gameOverWin()
+{
+
+}
+
+void GameWidget::gameOverLose()
+{
+
 }

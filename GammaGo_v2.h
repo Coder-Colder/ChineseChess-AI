@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef GAMMAGO_V2_H
 #define GAMMAGO_V2_H
 

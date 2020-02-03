@@ -23,51 +23,51 @@ void display(char m_board[10][9])
 		{
 			switch (m_board[i][j])
 			{
-			case R_KING:cout << "›";
+			case R_KING:cout << "å¸¥";
 				break;
-			case B_KING:cout << "½«";
+			case B_KING:cout << "å°†";
 				break;
 			case R_GUARD1:
-			case R_GUARD2:cout << "ÊË";
+			case R_GUARD2:cout << "ä»•";
 				break;
 			case B_GUARD1:
-			case B_GUARD2:cout << "Ê¿";
+			case B_GUARD2:cout << "å£«";
 				break;
 			case R_HORSE1:
-			case R_HORSE2:cout << "ñR";
+			case R_HORSE2:cout << "é¦¬";
 				break;
 			case B_HORSE1:
-			case B_HORSE2:cout << "Âí";
+			case B_HORSE2:cout << "é©¬";
 				break;
 			case R_BISHOP1:
-			case R_BISHOP2:cout << "Ïà";
+			case R_BISHOP2:cout << "ç›¸";
 				break;
 			case B_BISHOP1:
-			case B_BISHOP2:cout << "Ïó";
+			case B_BISHOP2:cout << "è±¡";
 				break;
 			case R_CANNON1:
-			case R_CANNON2:cout << "³h";
+			case R_CANNON2:cout << "ç ²";
 				break;
 			case B_CANNON1:
-			case B_CANNON2:cout << "ÅÚ";
+			case B_CANNON2:cout << "ç‚®";
 				break;
 			case R_CAR1:
-			case R_CAR2:cout << "Ü‡";
+			case R_CAR2:cout << "è»Š";
 				break;
 			case B_CAR1:
-			case B_CAR2:cout << "³µ";
+			case B_CAR2:cout << "è½¦";
 				break;
 			case R_PAWN1:
 			case R_PAWN2:
 			case R_PAWN3:
 			case R_PAWN4:
-			case R_PAWN5:cout << "±ø";
+			case R_PAWN5:cout << "å…µ";
 				break;
 			case B_PAWN1:
 			case B_PAWN2:
 			case B_PAWN3:
 			case B_PAWN4:
-			case B_PAWN5:cout << "×ä";
+			case B_PAWN5:cout << "å’";
 				break;
 			case NoChess:cout << "+-";
 				break;
@@ -90,16 +90,16 @@ void display(char m_board[10][9])
 			cout << "  |      |      |      |  /   |   \\  |      |      |      |" << endl;
 			break;
 		case 4:
-			cout << "  |         ³ş                          ºº                |" << endl;
-			cout << "  |                ºÓ                          ½ç         |" << endl;
+			cout << "  |         æ¥š                          æ±‰                |" << endl;
+			cout << "  |                æ²³                          ç•Œ         |" << endl;
 			break;
 		case 2:
-			cout << "  |      |      |      |      |      |      |      |      |        ºì" << endl;
+			cout << "  |      |      |      |      |      |      |      |      |        çº¢" << endl;
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
 			break;
 		case 6:
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
-			cout << "  |      |      |      |      |      |      |      |      |        ºÚ" << endl;
+			cout << "  |      |      |      |      |      |      |      |      |        é»‘" << endl;
 			break;
 		default:
 			cout << "  |      |      |      |      |      |      |      |      |" << endl;
@@ -115,16 +115,16 @@ bool UCTNode::operator>(const UCTNode & node)
 	double m_reliable = (double)(hit_cnt - win_cnt - win_cnt) / (double)hit_cnt + CONFINDENCE * sqrt((double)(base0 / (double)hit_cnt));
 	double n_reliable = (double)(node.hit_cnt - node.win_cnt - node.win_cnt) / (double)node.hit_cnt + CONFINDENCE * sqrt((double)(base0 / (double)node.hit_cnt));
 	double off = m_reliable - n_reliable;
-	//ÏÈÅĞµÈ
+	//å…ˆåˆ¤ç­‰
 	if (fabs(off) < 0.000001)
 		return false;
 	else
 		return off > 0;
 }
 
-void UCTNode::adjust()//×î´ó¶ÑµÄµ÷ÕûËã·¨
+void UCTNode::adjust()//æœ€å¤§å †çš„è°ƒæ•´ç®—æ³•
 {
-	if (tail == childs.size())//ËùÓĞ×Ó½ÚµãÈ«²¿ËÑË÷Íê£¬²ÉÓÃsiftDown²ßÂÔ
+	if (tail == childs.size())//æ‰€æœ‰å­èŠ‚ç‚¹å…¨éƒ¨æœç´¢å®Œï¼Œé‡‡ç”¨siftDownç­–ç•¥
 	{
 		UCTNode * temp = childs[0];
 		unsigned i = 0, j = 2 * i + 1;
@@ -142,7 +142,7 @@ void UCTNode::adjust()//×î´ó¶ÑµÄµ÷ÕûËã·¨
 		}
 		childs[i] = temp;
 	}
-	else//child[tial]ÊÇĞÂ¼ÓÈëËÑË÷Ê÷µÄ½áµã£¬Î´¼ÓÈë¶ÑÖĞ£¬²ÉÓÃsiftUp²ßÂÔ
+	else//child[tial]æ˜¯æ–°åŠ å…¥æœç´¢æ ‘çš„ç»“ç‚¹ï¼ŒæœªåŠ å…¥å †ä¸­ï¼Œé‡‡ç”¨siftUpç­–ç•¥
 	{
 		UCTNode * temp = childs[tail];
 		unsigned i = tail, j = (i - 1)/ 2;
@@ -195,14 +195,14 @@ void UCTNode::expand(int side, char board[10][9])
 				chess[i]->generateMovement(moveList, board);
 	}
 	unsigned size = moveList.size();
-	for (int i = size - 1; i >=  0; i--)//µ¹×Å±éÀú
+	for (int i = size - 1; i >=  0; i--)//å€’ç€éå†
 	{
 		/*cout << endl << "{in expand} before try:" << endl;
 		display(board);*/
 		int chess_id = this->makeMove(moveList[i], board);
 		/*cout << "{in expand} after try:" << endl;
 		display(board);*/
-		if (this->endCheck(board) == true)//Ö»ÍØÕ¹ÖÆÊ¤µÄ×Ó½Úµã
+		if (this->endCheck(board) == true)//åªæ‹“å±•åˆ¶èƒœçš„å­èŠ‚ç‚¹
 		{
 			this->unmakeMove(moveList[i], chess_id, board);
 			cout << endl << endl << "{in expand} hit end node!" << endl << endl;
@@ -260,7 +260,7 @@ bool UCTNode::endCheck(char board[10][9])
 	{
 		return false;
 	}
-	else //Á½Ë§ÓĞÒ»¸ö²»´æÔÚ,Æå¾Ö½áÊø
+	else //ä¸¤å¸…æœ‰ä¸€ä¸ªä¸å­˜åœ¨,æ£‹å±€ç»“æŸ
 		return true;
 }
 
@@ -273,38 +273,38 @@ UCTNode * UCTree::moveToBestNode(char board[10][9], int & whosTurn)
 	while (1)
 	{
 		unsigned child_size = cur->childs.size();
-		if (child_size == 0)//¸Ã½áµãÒÑËÑË÷¹ıµ«Î´ÍØÕ¹³ö×Ó½áµã
+		if (child_size == 0)//è¯¥ç»“ç‚¹å·²æœç´¢è¿‡ä½†æœªæ‹“å±•å‡ºå­ç»“ç‚¹
 		{
 			//cout << "{in moveToBestNode} expand node:" << endl;
-			if (cur->endCheck(board) == false)//ÅĞ¶Ïµ±Ç°½áµãÊÇ·ñ¿ÉÒÔÍØÕ¹
+			if (cur->endCheck(board) == false)//åˆ¤æ–­å½“å‰ç»“ç‚¹æ˜¯å¦å¯ä»¥æ‹“å±•
 				cur->expand(move_side, board);
-			else//²»¿ÉÍØÕ¹Ê±Ö±½Ó·µ»Ø,ÒòÎª¸Ã½áµãÒÑ¾­³öÏÖÊ¤¸º
+			else//ä¸å¯æ‹“å±•æ—¶ç›´æ¥è¿”å›,å› ä¸ºè¯¥ç»“ç‚¹å·²ç»å‡ºç°èƒœè´Ÿ
 				return cur;
 			//cout << "{in moveToBestNode} expand End" << endl;
-			cur = cur->childs[0];//µÚÒ»¸ö×Ó½áµã¼´ÎªÎ´ËÑË÷¹ıµÄ½áµã
-			break;//½áÊøÑ­»·
+			cur = cur->childs[0];//ç¬¬ä¸€ä¸ªå­ç»“ç‚¹å³ä¸ºæœªæœç´¢è¿‡çš„ç»“ç‚¹
+			break;//ç»“æŸå¾ªç¯
 		}
-		else if (cur->tail == child_size)//curËùÓĞ×Ó½áµãÈ«²¿ËÑË÷¹ı£¬ĞèÒªÑ¡¾Ù
+		else if (cur->tail == child_size)//curæ‰€æœ‰å­ç»“ç‚¹å…¨éƒ¨æœç´¢è¿‡ï¼Œéœ€è¦é€‰ä¸¾
 		{
-			cur->makeMove(cur->childs[0]->move, board);//ËÑË÷Â·¾¶¾­¹ı¸Ã½áµã	
+			cur->makeMove(cur->childs[0]->move, board);//æœç´¢è·¯å¾„ç»è¿‡è¯¥ç»“ç‚¹	
 			/*if (move_side == RED)
 				cout << "{in moveToBestNode} red turn:" << endl;
 			else
 				cout << "{in moveToBestNode} black turn:" << endl;
 			display(board);*/
-			cur = cur->childs[0];//ÓÅÏÈ¶ÓÁĞ±£Ö¤¸Ã×Ó½Úµã¿ÉĞÅ¶È×î¸ß
+			cur = cur->childs[0];//ä¼˜å…ˆé˜Ÿåˆ—ä¿è¯è¯¥å­èŠ‚ç‚¹å¯ä¿¡åº¦æœ€é«˜
 			
-			//¼ÌĞøÏòÏÂÒ»²ãËÑË÷,»»±ß
+			//ç»§ç»­å‘ä¸‹ä¸€å±‚æœç´¢,æ¢è¾¹
 			move_side = (move_side == RED) ? BLACK : RED;
 		}
-		else//ÕÒµ½×î¼Ñ½áµã£¨cur´æÔÚÎ´ËÑË÷¹ıµÄ×Ó½áµã£¬²»ĞèÒªÑ¡¾Ù£©
+		else//æ‰¾åˆ°æœ€ä½³ç»“ç‚¹ï¼ˆcurå­˜åœ¨æœªæœç´¢è¿‡çš„å­ç»“ç‚¹ï¼Œä¸éœ€è¦é€‰ä¸¾ï¼‰
 		{
 			cur->tail++;
 			cur = cur->childs[cur->tail];
-			break;//½áÊøÑ­»·
+			break;//ç»“æŸå¾ªç¯
 		}
 	}
-	//ÖÁ´Ë£¬curÎªËæ»úÄ£ÄâµÄ×î¼ÑÆğÊ¼Ô´µã
+	//è‡³æ­¤ï¼Œcurä¸ºéšæœºæ¨¡æ‹Ÿçš„æœ€ä½³èµ·å§‹æºç‚¹
 	cur->makeMove(cur->move, board);
 	/*if (move_side == RED)
 		cout << "{in moveToBestNode} red turn:" << endl;
@@ -377,11 +377,11 @@ int GammaGo_v2::simulateRun(int whosTurn)
 {
 	MOVEMENT mvmt;
 	int cnt = 0;
-	if (whosTurn == BLACK)//ºÚ·½ÏÈÊÖ
+	if (whosTurn == BLACK)//é»‘æ–¹å…ˆæ‰‹
 	{
 		while (chess[B_KING]->exist == true && cnt <= MaxTurn)
 		{
-			//Ëæ»úÉú³ÉÒ»ÖÖ×ß·¨
+			//éšæœºç”Ÿæˆä¸€ç§èµ°æ³•
 			vector<MOVEMENT> B_mvmt;
 			for (int i = BlackEnd; i >= BlackBegin; i--)
 				if (chess[i]->exist)
@@ -393,10 +393,10 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			makeMove(mvmt);
 			//display();
 
-			if (chess[R_KING]->exist == false) //ºÚ·½Ó®
+			if (chess[R_KING]->exist == false) //é»‘æ–¹èµ¢
 				break;
 
-			//Ëæ»úÉú³ÉÒ»ÖÖ×ß·¨
+			//éšæœºç”Ÿæˆä¸€ç§èµ°æ³•
 			vector<MOVEMENT> R_mvmt;
 			for (int i = RedEnd; i <= RedBegin; i--)
 				if (chess[i]->exist)
@@ -410,11 +410,11 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			cnt++;
 		}
 	}
-	else//ºì·½ÏÈÊÖ
+	else//çº¢æ–¹å…ˆæ‰‹
 	{
 		while (chess[R_KING]->exist == true && cnt <= MaxTurn)
 		{
-			//Ëæ»úÉú³ÉÒ»ÖÖ×ß·¨
+			//éšæœºç”Ÿæˆä¸€ç§èµ°æ³•
 			vector<MOVEMENT> R_mvmt;
 			for (int i = RedBegin; i <= RedEnd; i++)
 				if (chess[i]->exist)
@@ -426,10 +426,10 @@ int GammaGo_v2::simulateRun(int whosTurn)
 			makeMove(mvmt);
 			//display();
 
-			if (chess[B_KING]->exist == false)//ºì·½Ó®
+			if (chess[B_KING]->exist == false)//çº¢æ–¹èµ¢
 				break;
 
-			//Ëæ»úÉú³ÉÒ»ÖÖ×ß·¨
+			//éšæœºç”Ÿæˆä¸€ç§èµ°æ³•
 			vector<MOVEMENT> B_mvmt;
 			for (int i = BlackBegin; i <= BlackEnd; i++)
 				if (chess[i]->exist)
@@ -476,7 +476,7 @@ void GammaGo_v2::makeMove(MOVEMENT & mvmt)
 	m_board[src_y][src_x] = NoChess;
 }
 
-bool GammaGo_v2::gameOver(int & winner)//Ã»Ê²Ã´ÓÃ
+bool GammaGo_v2::gameOver(int & winner)//æ²¡ä»€ä¹ˆç”¨
 {
 	return false;
 }

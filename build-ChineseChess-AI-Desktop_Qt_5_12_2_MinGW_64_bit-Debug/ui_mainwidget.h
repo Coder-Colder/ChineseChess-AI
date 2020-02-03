@@ -10,6 +10,7 @@
 #define UI_MAINWIDGET_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QWidget>
 
@@ -23,7 +24,10 @@ public:
     {
         if (MainWidget->objectName().isEmpty())
             MainWidget->setObjectName(QString::fromUtf8("MainWidget"));
-        MainWidget->resize(400, 300);
+        MainWidget->resize(1228, 772);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("../../Resource/IMAGES_S/CANVAS.GIF"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWidget->setWindowIcon(icon);
 
         retranslateUi(MainWidget);
 

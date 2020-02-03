@@ -104,7 +104,7 @@ int Game::Start()
         Red->play(board,mvmt);
         board.moveNext(mvmt);
         board.display();
-        gameOverCheck(RED);
+        gameOverCheck(RED); 
         if(over_flag != GMAEON)
             break;
         Black->play(board,mvmt);
@@ -144,8 +144,6 @@ int Game::Start()
 
 void Game::gameOverCheck(int side)
 {
-    CHESSPOS pos_R = chess[R_KING]->pos;
-    CHESSPOS pos_B = chess[B_KING]->pos;
     if(side == RED)
     {
         if(chess[B_KING]->exist == false)

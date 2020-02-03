@@ -98,37 +98,10 @@ void Board::moveNext(MOVEMENT & move)
 
     if(is_Chess(dst_chess_id))
         chess[dst_chess_id]->exist = false;
+    assert(is_Chess(src_chess_id));
     chess[src_chess_id]->setPos(move.tar);
-    
+
     board[dst_y][dst_x] = board[src_y][src_x];
     board[src_y][src_x] = NoChess;
 }
 
-bool Board::getRKing(CHESSPOS & pos)
-{
-    for(int i = 0; i <= 2; i++)
-    {
-        for(int j = 3; j <= 5; j++)
-            if(board[i][j] == R_KING)
-            {
-                pos.x = j;
-                pos.y = i;
-                return true;
-            }
-    }
-    return false;
-}
-bool Board::getBKing(CHESSPOS & pos)
-{
-    for(int i = 0; i <= 2; i++)
-    {
-        for(int j = 3; j <= 5; j++)
-            if(board[i][j] == B_KING)
-            {
-                pos.x = j;
-                pos.y = i;
-                return true;
-            }
-    }
-    return false;
-}
