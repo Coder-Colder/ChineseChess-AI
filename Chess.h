@@ -5,6 +5,9 @@
 #include <vector>
 using namespace std;
 
+class Chess;
+
+extern Chess * chess[32];//定义在game.cpp中的全局变量
 
 class Chess //记录棋子在棋盘上的坐标；根据形势给出所有合法走子；检验所给走子方法的合法性
 {
@@ -22,8 +25,6 @@ public:
 };
 
 
-extern Chess * chess[32];//定义在game.cpp中的全局变量
-
 class R_King : public Chess //红帅
 {
 public:
@@ -32,6 +33,7 @@ public:
 	bool moveValid(CHESSPOS &tar, char board[10][9]);					   //重定义父类函数
 	void generateMovement(vector<MOVEMENT> &moveList, char board[10][9]); //重定义父类函数
 };
+
 class B_King : public Chess //黑帅
 {
 public:

@@ -241,6 +241,7 @@ Makefile: ..\ChineseChess-AI\ChineseChess-AI.pro E:\QT\5.12.2\msvc2017\mkspecs\w
 		E:\QT\5.12.2\msvc2017\mkspecs\features\qt_config.prf \
 		E:\QT\5.12.2\msvc2017\mkspecs\win32-msvc\qmake.conf \
 		E:\QT\5.12.2\msvc2017\mkspecs\features\spec_post.prf \
+		.qmake.stash \
 		E:\QT\5.12.2\msvc2017\mkspecs\features\exclusive_builds.prf \
 		E:\QT\5.12.2\msvc2017\mkspecs\common\msvc-version.conf \
 		E:\QT\5.12.2\msvc2017\mkspecs\features\toolchain.prf \
@@ -434,6 +435,7 @@ E:\QT\5.12.2\msvc2017\mkspecs\features\qt_functions.prf:
 E:\QT\5.12.2\msvc2017\mkspecs\features\qt_config.prf:
 E:\QT\5.12.2\msvc2017\mkspecs\win32-msvc\qmake.conf:
 E:\QT\5.12.2\msvc2017\mkspecs\features\spec_post.prf:
+.qmake.stash:
 E:\QT\5.12.2\msvc2017\mkspecs\features\exclusive_builds.prf:
 E:\QT\5.12.2\msvc2017\mkspecs\common\msvc-version.conf:
 E:\QT\5.12.2\msvc2017\mkspecs\features\toolchain.prf:
