@@ -87,7 +87,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
     Red->play(board,mvmt);
     board.moveNext(mvmt);
     this->moveNextDisplay(mvmt);
-
+    //连接点击信号
     for(int i = 0;i < 10;i++)
     {
         for(int j = 0;j < 9;j++)
@@ -95,6 +95,15 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
                connect(chessDisplay[i][j],&ChessDisplay::act,this,&GameWidget::humanPlay);
         }
     }
+    //声音初始化
+    clickSound = new QSound(":/res/CLICK.wav",this);
+    moveSound = new QSound(":/res/MOVE.wav",this);
+    captrueSound = new QSound(":/res/CAPTURE.wav",this);
+    startSound = new QSound(":/res/DRAW.wav",this);
+    winSound = new QSound(":/res/WIN.wav",this);
+    loseSound = new QSound(":/res/LOSS.wav",this);
+    illegalSound = new QSound(":/res/ILLEGAL.wav",this);
+
 }
 
 void GameWidget::paintEvent(QPaintEvent *)
@@ -217,8 +226,8 @@ void GameWidget::moveNextDisplay(MOVEMENT & move)
 
         chessDisplay[move.src.y][move.src.x]->displayNormalImg();
         chessDisplay[move.tar.y][move.tar.x]->displayNormalImg();
-    }
 
+    }
 }
 
 void GameWidget::humanPlay(CHESSPOS pos)
@@ -229,11 +238,13 @@ void GameWidget::humanPlay(CHESSPOS pos)
         if(chessDisplay[pos.y][pos.x]->is_chess)
         {
             chessDisplay[pos.y][pos.x]->displayPressImg();
+            this->clickSound->play();
             state = PRESS_CHESS;
             lastPress = pos;
         }
         else {
             chessDisplay[pos.y][pos.x]->displayPressImg();
+            this->clickSound->play();
             lastPress = pos;
             state = PRESS_BOARD;
         }
@@ -244,12 +255,17 @@ void GameWidget::humanPlay(CHESSPOS pos)
             MOVEMENT mvmt;
             mvmt.src = lastPress;
             mvmt.tar = pos;
+            if(chessDisplay[mvmt.tar.y][mvmt.tar.x]->is_chess)
+                captrueSound->play();
+            else
+                moveSound->play();
             moveNextDisplay(mvmt);
             state = WAIT;
             countiuePlay(mvmt);
         }
         else {
             chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
+            illegalSound->play();
             state = WAIT;
         }
         break;
@@ -258,12 +274,14 @@ void GameWidget::humanPlay(CHESSPOS pos)
         {
             chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
             chessDisplay[pos.y][pos.x]->displayPressImg();
+            this->clickSound->play();
             state = PRESS_CHESS;
             lastPress = pos;
         }
         else {
             chessDisplay[lastPress.y][lastPress.x]->displayNormalImg();
             chessDisplay[pos.y][pos.x]->displayPressImg();
+            this->clickSound->play();
             state = PRESS_BOARD;
             lastPress = pos;
         }
@@ -288,6 +306,12 @@ void GameWidget::countiuePlay(MOVEMENT & move)
     gameOverCheck();
     Red->play(board,move);
     board.moveNext(move);
+    /*
+    if(chessDisplay[move.tar.y][move.tar.x]->is_chess)
+        captrueSound->play();
+    else
+        moveSound->play();
+        */
     moveNextDisplay(move);
     gameOverCheck();
 }

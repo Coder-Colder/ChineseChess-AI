@@ -15,19 +15,6 @@
         <file>res/B_KING2.png</file>
         <file>res/B_PAWN1.png</file>
         <file>res/B_PAWN2.png</file>
-        <file>res/CAPTURE.WAV</file>
-        <file>res/CAPTURE2.WAV</file>
-        <file>res/CHECK.WAV</file>
-        <file>res/CHECK2.WAV</file>
-        <file>res/CLICK.WAV</file>
-        <file>res/DRAW.WAV</file>
-        <file>res/ILLEGAL.WAV</file>
-        <file>res/LOSS.WAV</file>
-        <file>res/MOVE.WAV</file>
-        <file>res/MOVE2.WAV</file>
-        <file>res/NEWGAME.WAV</file>
-        <file>res/PROMOTE.WAV</file>
-        <file>res/PROMOTE2.WAV</file>
         <file>res/R_BISHOP1.png</file>
         <file>res/R_BISHOP2.png</file>
         <file>res/R_CANNON1.png</file>
@@ -45,9 +32,17 @@
         <file>res/R_PAWN2.png</file>
         <file>res/White1.png</file>
         <file>res/White2.png</file>
-        <file>res/WIN.WAV</file>
         <file>res/Board.JPG</file>
         <file>res/MainSence.png</file>
         <file>res/ChooseSence.png</file>
+        <file>res/CAPTURE.wav</file>
+        <file>res/CLICK.wav</file>
+        <file>res/ILLEGAL.wav</file>
+        <file>res/LOSS.wav</file>
+        <file>res/MOVE.wav</file>
+        <file>res/NEWGAME.wav</file>
+        <file>res/WIN.wav</file>
+        <file>res/CAPTURE2.wav</file>
+        <file>res/DRAW.wav</file>
     </qresource>
 </RCC>

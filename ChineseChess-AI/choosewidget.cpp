@@ -27,16 +27,21 @@ ChooseWidget::ChooseWidget(QWidget *parent) : QWidget(parent)
     connect(easyButton,&QPushButton::clicked,[=](){
         this->hide();
         gameWidget->show();
+        gameWidget->startSound->play();
+
     });
 
     connect(midButton,&QPushButton::clicked,[=](){
         this->hide();
         gameWidget->show();
+        gameWidget->startSound->play();
+
     });
 
     connect(easyButton,&QPushButton::clicked,[=](){
         this->hide();
         gameWidget->show();
+        gameWidget->startSound->play();
     });
 
 }

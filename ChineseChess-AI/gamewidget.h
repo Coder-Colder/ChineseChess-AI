@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <QSound>
 #include "define.h"
 #include "player.h"
 #include "chess.h"
@@ -38,6 +39,15 @@ public:
     int state;//标记人类当前状态
     CHESSPOS lastPress;//记录上次按下的按键
     ChessDisplay * chessDisplay[10][9];
+
+    //需要的声音
+    QSound *clickSound;
+    QSound *moveSound;
+    QSound *captrueSound;
+    QSound *illegalSound;
+    QSound *startSound;
+    QSound *winSound;
+    QSound *loseSound;
 signals:
 
 public slots:
