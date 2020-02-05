@@ -1,8 +1,8 @@
-#include "Evaluator.h"
+Ôªø#include "Evaluator.h"
 #include <vector>
 using namespace std;
 
-//∂®“Â√ø÷÷∆Â◊”µƒº€÷µ
+//ÂÆö‰πâÊØèÁßçÊ£ãÂ≠êÁöÑ‰ª∑ÂÄº
 #define BASEVALUE_PAWN 100
 #define BASEVALUE_GUARD 250
 #define BASEVALUE_BISHOP 250
@@ -10,7 +10,7 @@ using namespace std;
 #define BASEVALUE_CANNON 350
 #define BASEVALUE_CAR 500
 #define BASEVALUE_KING 10000
-//∂®“Â∆Â◊”¡ÈªÓ–‘
+//ÂÆö‰πâÊ£ãÂ≠êÁÅµÊ¥ªÊÄß
 #define FLEXIBILITY_PAWN 15
 #define FLEXIBILITY_GUARD 1
 #define FLEXIBILITY_BISHOP 1
@@ -19,7 +19,7 @@ using namespace std;
 #define FLEXIBILITY_CAR 6
 #define FLEXIBILITY_KING 0
 
-
+//Ê£ãÂ≠ê‰ΩçÁΩÆ‰ª∑ÂÄº
 const int R_PawnOpenMidgame[10][9] = {
 	{   0,      0,      0,      0,      0,      0,      0,      0,      0},
 	{   0,      0,      0,      0,      0,      0,      0,      0,      0},
@@ -226,13 +226,13 @@ int getR_PawnValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_PAWN;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += R_PawnOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -240,15 +240,16 @@ int getR_PawnValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Red(tarChessID))//±£ª§º€÷µ
+		if (is_Red(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Black(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Black(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_PAWN) / 10;
+			value += FLEXIBILITY_PAWN;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_PAWN;
 		}
@@ -262,13 +263,13 @@ int getB_PawnValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_PAWN;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += B_PawnOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -276,15 +277,16 @@ int getB_PawnValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Black(tarChessID))//±£ª§º€÷µ
+		if (is_Black(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Red(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Red(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_PAWN) /10;
+			value += FLEXIBILITY_PAWN;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_PAWN;
 		}
@@ -298,13 +300,13 @@ int getR_CannonValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_CANNON;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += R_CannonOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -312,18 +314,19 @@ int getR_CannonValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Red(tarChessID))//±£ª§º€÷µ
+		if (is_Red(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == R_KING)
 				value += 0;
 			else 
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Black(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Black(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_CANNON / 5) / 10;
+			value += FLEXIBILITY_CANNON;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_CANNON;
 		}
@@ -337,13 +340,13 @@ int getB_CannonValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_CANNON;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += B_CannonOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -351,18 +354,19 @@ int getB_CannonValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Black(tarChessID))//±£ª§º€÷µ
+		if (is_Black(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == B_KING)
 				value += 0;
 			else
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Red(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Red(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_CANNON / 5) / 10;
+			value += FLEXIBILITY_CANNON;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_CANNON;
 		}
@@ -376,13 +380,13 @@ int getR_HorseValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_HORSE;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += R_HorseOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -390,18 +394,19 @@ int getR_HorseValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Red(tarChessID))//±£ª§º€÷µ
+		if (is_Red(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == R_KING)
 				value += 0;
 			else
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Black(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Black(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_HORSE / 5) / 10;
+			value += FLEXIBILITY_HORSE;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_HORSE;
 		}
@@ -415,13 +420,13 @@ int getB_HorseValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_HORSE;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += B_HorseOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -429,18 +434,19 @@ int getB_HorseValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Black(tarChessID))//±£ª§º€÷µ
+		if (is_Black(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == B_KING)
 				value += 0;
 			else
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Red(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Red(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_HORSE / 5) / 10;
+			value += FLEXIBILITY_HORSE;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_HORSE;
 		}
@@ -454,13 +460,13 @@ int getR_CarValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_CAR;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += R_CarOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -468,18 +474,19 @@ int getR_CarValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Red(tarChessID))//±£ª§º€÷µ
+		if (is_Red(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == R_KING)
 				value += 0;
 			else
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Black(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Black(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_CAR / 5) / 10;
+			value += FLEXIBILITY_CAR;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_CAR;
 		}
@@ -493,13 +500,13 @@ int getB_CarValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BASEVALUE_CAR;
 
-	//Œª÷√º€÷µ
+	//‰ΩçÁΩÆ‰ª∑ÂÄº
 	value += B_CarOpenMidgame[posY][posX];
 
-	//¡ÈªÓ–‘”ÎÕ˛–≤°¢±£ª§º€÷µ
+	//ÁÅµÊ¥ªÊÄß‰∏éÂ®ÅËÉÅ„ÄÅ‰øùÊä§‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -507,18 +514,19 @@ int getB_CarValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Black(tarChessID))//±£ª§º€÷µ
+		if (is_Black(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			if (tarChessID == B_KING)
 				value += 0;
 			else
 				value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Red(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Red(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += (BaseValue[tarChessID] - BASEVALUE_CAR / 5) /10;
+			value += FLEXIBILITY_CAR;
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += FLEXIBILITY_CAR;
 		}
@@ -532,10 +540,10 @@ int getR_NormalChessValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BaseValue[mChessID];
  
-	//¡ÈªÓ–‘°¢±£ª§°¢Õ˛–≤º€÷µ
+	//ÁÅµÊ¥ªÊÄß„ÄÅ‰øùÊä§„ÄÅÂ®ÅËÉÅ‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -543,15 +551,16 @@ int getR_NormalChessValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Red(tarChessID))//±£ª§º€÷µ
+		if (is_Red(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Black(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Black(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 10;
+			value += Flexibility[mChessID];
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += Flexibility[mChessID];
 		}
@@ -565,10 +574,10 @@ int getB_NormalChessValue(char board[10][9], int posX, int posY)
 {
 	int mChessID = board[posY][posX];
 
-	//ª˘±æº€÷µ
+	//Âü∫Êú¨‰ª∑ÂÄº
 	int value = BaseValue[mChessID];
 
-	//¡ÈªÓ–‘°¢±£ª§°¢Õ˛–≤º€÷µ
+	//ÁÅµÊ¥ªÊÄß„ÄÅ‰øùÊä§„ÄÅÂ®ÅËÉÅ‰ª∑ÂÄº
 	vector<CHESSPOS> relate_pos;
 	chess[mChessID]->genMovePos(CHESSPOS(posX, posY), relate_pos, board);
 
@@ -576,15 +585,16 @@ int getB_NormalChessValue(char board[10][9], int posX, int posY)
 	for (unsigned i = 0; i < size; i++)
 	{
 		int tarChessID = board[relate_pos[i].y][relate_pos[i].x];
-		if (is_Black(tarChessID))//±£ª§º€÷µ
+		if (is_Black(tarChessID))//‰øùÊä§‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 2;
 		}
-		else if (is_Red(tarChessID))//Õ˛–≤º€÷µ
+		else if (is_Red(tarChessID))//Â®ÅËÉÅ‰ª∑ÂÄº
 		{
 			value += BaseValue[tarChessID] / 10;
+			value += Flexibility[mChessID];
 		}
-		else//¡ÈªÓ–‘
+		else//ÁÅµÊ¥ªÊÄß
 		{
 			value += Flexibility[mChessID];
 		}
@@ -632,7 +642,7 @@ pfunc getValue[33] = {
 	getB_CarValue,//B_CAR1
 	getB_CarValue,//B_CAR2
 
-	[](char board[10][9], int posX, int posY)->int {return 0; }//∑«∆Â◊”
+	[](char board[10][9], int posX, int posY)->int {return 0; }//ÈùûÊ£ãÂ≠ê
 };
 
 int evaluateBoard(char board[10][9])
@@ -665,10 +675,10 @@ int evaluateMove(MOVEMENT & mvmt, char board[10][9])
 	int mChessID = board[mvmt.src.y][mvmt.src.x];
 	if(is_Red(mChessID))
 	{
-		//º∆À„“∆∂Ø«∞
+		//ËÆ°ÁÆóÁßªÂä®Ââç
 		int value = getValue[mChessID](board, mvmt.src.x, mvmt.src.y);
 
-		//º∆À„“∆∂Ø∫Û
+		//ËÆ°ÁÆóÁßªÂä®Âêé
 	}
 	else
 	{
