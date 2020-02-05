@@ -6,31 +6,37 @@
 #include <vector>
 
 
-#define CONFINDENCE 100
+#define CONFINDENCE 0.1
 
-#define MaxTurn 0.8
+#define EndNodeLoseProfit -1
+#define EndNodeWinProfit 1
+#define NoProfit 0
+
+
+#define MaxTurn 200
 
 
 struct UCTNode
 {
-	unsigned win_cnt;//收益
-	unsigned hit_cnt;//命中数
+	int win_cnt;//该节点收益,对手结点收益为负
+	unsigned hit_cnt;//该节点的命中数
 	MOVEMENT move;//走子方式
 	unsigned tail;//已搜索过的子节点指针数组元素的尾索引
 	vector<UCTNode*> childs;//子节点指针数组（用于维护成最大堆）
 	UCTNode * parent;//父指针
 
-	//static unsigned node_cnt;//信心上限树结点数（.cpp中local变量）
+	int depth;
+	static int max_depth;
 
 public:
-	UCTNode(const MOVEMENT & mvmt, UCTNode * parent = nullptr)
+	UCTNode(int depth, const MOVEMENT & mvmt, UCTNode * parent = nullptr)
 	{
 		win_cnt = 0;
 		hit_cnt = 0;
-		//node_cnt++;
 		move = mvmt;
 		tail = 0;
 		this->parent = parent;
+		this->depth = depth;
 		childs.resize(0);
 	}
 	bool operator >(const UCTNode & node);//用于建立子节点优先队列时比较结点置信度

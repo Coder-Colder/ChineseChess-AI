@@ -15,7 +15,6 @@ public:
     explicit MainWidget(QWidget *parent = nullptr);
     ~MainWidget();
     void paintEvent(QPaintEvent *);
-
     ChooseWidget * chooseWidget;
 private:
     Ui::MainWidget *ui;
