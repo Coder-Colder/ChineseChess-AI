@@ -7,8 +7,10 @@ release/chessdisplay.o
 release/board.o
 release/human.o
 release/GammaGo_v2.o
+release/overwidget.o
 release/qrc_res.o
 release/moc_mainwidget.o
 release/moc_choosewidget.o
 release/moc_gamewidget.o
 release/moc_chessdisplay.o
+release/moc_overwidget.o

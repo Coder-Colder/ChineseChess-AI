@@ -44,5 +44,7 @@
         <file>res/WIN.wav</file>
         <file>res/CAPTURE2.wav</file>
         <file>res/DRAW.wav</file>
+        <file>res/lose.png</file>
+        <file>res/win.png</file>
     </qresource>
 </RCC>

@@ -10,6 +10,7 @@
 #include "human.h"
 #include "chessdisplay.h"
 #include "GammaGo_v2.h"
+#include "overwidget.h"
 
 
 /*mode*/
@@ -28,7 +29,6 @@ public:
     void initChessDisplay(char board[10][9]);
     void moveNextDisplay(MOVEMENT & move);
     void countiuePlay(MOVEMENT & move);
-    void gameOverCheck();//判断棋局是否结束
     void gameOverWin();
     void gameOverLose();
     int mode;
@@ -48,8 +48,10 @@ public:
     QSound *startSound;
     QSound *winSound;
     QSound *loseSound;
-signals:
 
+signals:
+    void win();
+    void lose();
 public slots:
     void humanPlay(CHESSPOS pos);
 };

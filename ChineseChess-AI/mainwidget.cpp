@@ -24,6 +24,18 @@ MainWidget::MainWidget(QWidget *parent) :
         this->hide();
         chooseWidget->show();
     });
+
+    //结束场景初始化
+    winWidget = new OverWidget(1);
+    winWidget->hide();
+
+    loseWidget = new OverWidget(2);
+    loseWidget->hide();
+
+    connect(this->chooseWidget->gameWidget,&GameWidget::win,this,&MainWidget::overWin);
+    connect(this->chooseWidget->gameWidget,&GameWidget::lose,this,&MainWidget::overLose);
+    connect(winWidget,&OverWidget::again,this,&MainWidget::restart);
+    connect(loseWidget,&OverWidget::again,this,&MainWidget::restart);
 }
 
 MainWidget::~MainWidget()
@@ -41,3 +53,23 @@ void MainWidget::paintEvent(QPaintEvent *)
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
 }
 
+void MainWidget::overWin()
+{
+    winWidget->setWindowModality(Qt::ApplicationModal); //设置窗体模态
+    winWidget->show();
+}
+void MainWidget::overLose()
+{
+    loseWidget->setWindowModality(Qt::ApplicationModal);
+    loseWidget->show();
+}
+
+void MainWidget::restart()
+{
+    /*
+    delete chooseWidget;
+    chooseWidget = new ChooseWidget();
+    chooseWidget->show();
+    */
+    //TODO:程序会异常退出，原因不明
+}

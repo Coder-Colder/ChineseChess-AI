@@ -33,7 +33,8 @@ SOURCES += \
     chessdisplay.cpp \
     board.cpp \
     human.cpp \
-    GammaGo_v2.cpp
+    GammaGo_v2.cpp \
+    overwidget.cpp
 
 HEADERS += \
         mainwidget.h \
@@ -45,10 +46,12 @@ HEADERS += \
     player.h \
     human.h \
     board.h \
-    GammaGo_v2.h
+    GammaGo_v2.h \
+    overwidget.h
 
 FORMS += \
-        mainwidget.ui
+        mainwidget.ui \
+    overwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

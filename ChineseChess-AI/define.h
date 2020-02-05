@@ -81,7 +81,7 @@ public:
 extern int flagBoard[14][13];
 
 #define is_outBoard(y, x) (flagBoard[y + 2][x + 2] == OUTBOARD)
-#define is_inBoard(y, x) (flagBoard[y + 2][x + 2] == INBOARD)
+#define is_inBoard(y, x) (flagBoard[y + 2][x + 2] == INBOARD || flagBoard[y + 2][x + 2] == RSQUARE|| flagBoard[y + 2][x + 2] == BSQUARE)
 #define is_inRedPalace(y, x) (flagBoard[y + 2][x + 2] == RSQUARE)
 #define is_inBlackPalace(y, x) (flagBoard[y + 2][x + 2] == BSQUARE)
 

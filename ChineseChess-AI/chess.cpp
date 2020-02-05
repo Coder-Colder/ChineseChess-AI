@@ -1,5 +1,5 @@
 #include "chess.h"
-
+#include<QDebug>
 Chess::Chess(CHESSPOS pos, bool exist) : pos(pos),exist(exist)
 {
 }

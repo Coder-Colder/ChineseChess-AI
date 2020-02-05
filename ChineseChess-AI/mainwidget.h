@@ -16,6 +16,16 @@ public:
     ~MainWidget();
     void paintEvent(QPaintEvent *);
     ChooseWidget * chooseWidget;
+
+    //结束窗口
+    OverWidget * winWidget;
+    OverWidget * loseWidget;
+signals:
+
+public slots:
+    void overWin();
+    void overLose();
+    void restart();
 private:
     Ui::MainWidget *ui;
 };

@@ -103,7 +103,6 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
     winSound = new QSound(":/res/WIN.wav",this);
     loseSound = new QSound(":/res/LOSS.wav",this);
     illegalSound = new QSound(":/res/ILLEGAL.wav",this);
-
 }
 
 void GameWidget::paintEvent(QPaintEvent *)
@@ -194,6 +193,13 @@ GameWidget::~GameWidget()
 {
     delete Red;
     delete Black;
+    delete clickSound;
+    delete moveSound;
+    delete captrueSound;
+    delete illegalSound;
+    delete startSound;
+    delete winSound;
+    delete loseSound;
 }
 
 void GameWidget::moveNextDisplay(MOVEMENT & move)
@@ -245,8 +251,8 @@ void GameWidget::humanPlay(CHESSPOS pos)
         else {
             chessDisplay[pos.y][pos.x]->displayPressImg();
             this->clickSound->play();
-            lastPress = pos;
             state = PRESS_BOARD;
+            lastPress = pos;
         }
         break;
     case PRESS_CHESS:;
@@ -292,36 +298,33 @@ void GameWidget::humanPlay(CHESSPOS pos)
     }
 }
 
-void GameWidget::gameOverCheck()
-{
-    if(chess[B_KING]->exist == false)
-        gameOverLose();
-    else if(chess[R_KING]->exist == false)
-        gameOverWin();
-}
-
 void GameWidget::countiuePlay(MOVEMENT & move)
 {
     board.moveNext(move);
-    gameOverCheck();
-    Red->play(board,move);
-    board.moveNext(move);
-    /*
-    if(chessDisplay[move.tar.y][move.tar.x]->is_chess)
+    if(chess[R_KING]->exist == false)
+    {
+        gameOverWin();
+        return;
+    }
+    MOVEMENT mvmt;
+    Red->play(board,mvmt);
+    board.moveNext(mvmt);
+    if(chessDisplay[mvmt.tar.y][mvmt.tar.x]->is_chess)
         captrueSound->play();
     else
         moveSound->play();
-        */
-    moveNextDisplay(move);
-    gameOverCheck();
+    moveNextDisplay(mvmt);
+    if(chess[B_KING]->exist == false)
+        gameOverLose();
 }
 
 void GameWidget::gameOverWin()
 {
-
+    emit win();
 }
 
 void GameWidget::gameOverLose()
 {
-
+    emit lose();
 }
+
