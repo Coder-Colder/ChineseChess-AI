@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
     //创建开始按钮
     QPushButton  * startButton = new QPushButton(this);
-    startButton->setText("开始下棋");
+    startButton->setText("开始游戏");
     startButton->move(this->width() * 0.5 - startButton->width() *0.5, this->height() * 0.7);
     startButton->resize(100,75);
 
